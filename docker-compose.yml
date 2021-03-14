@@ -8,7 +8,9 @@ services:
     ports:
       - 3307:3306
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - mariadb_data_complaint:/var/lib/mysql
+    networks: 
+      - back_complaints
 
   backend_complaint:
     build: .
@@ -35,7 +37,16 @@ services:
       TYPEORM_ENTITIES_DIR: src/entity
       TYPEORM_MIGRATIONS_DIR: src/migration
       TYPEORM_SUBSCRIBERS_DIR: src/subscriber
+    networks: 
+      - back_complaints
+      - gateway
 
 volumes:
-  mariadb_data:
+  mariadb_data_complaint:
     driver: local
+
+networks:
+  back_complaints:
+    name: back_complaints
+  gateway:
+    name: gateway
