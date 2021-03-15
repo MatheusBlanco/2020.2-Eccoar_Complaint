@@ -5,7 +5,7 @@ import { initializeDB } from "./db";
 import * as cors from 'cors';
 
 const app = express();
-const PORT = process.env.APP_PORT || 5001;
+const PORT = process.env.APP_PORT || 5000;
 
 initializeDB();
 
