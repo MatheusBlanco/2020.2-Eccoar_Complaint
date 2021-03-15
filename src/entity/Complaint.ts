@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn} from "typeorm";
 import { IsLatitude, IsLongitude } from 'class-validator';
 import { Category } from "./../utils/Category";
 
@@ -28,10 +28,10 @@ export class Complaint {
     @Column({type: "enum", enum: Category, nullable: false})
     category: Category;
 
-    @Column({type: "datetime", nullable: false})
+    @CreateDateColumn({type: "datetime", nullable: false})
     creationDate: string;
 
-    @Column({type: "datetime", nullable: false})
+    @Column({type: "datetime", nullable: true})
     closeDate: string;
 
     @Column({nullable: false})
