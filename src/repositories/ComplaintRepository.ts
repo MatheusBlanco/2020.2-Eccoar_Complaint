@@ -13,4 +13,16 @@ export class ComplaintRepository {
         return repository.save(complaint);
     }
 
+    async getAllComplaints(skip: number, take: number) {
+        const repository = getRepository(Complaint);
+        const [result, count] = await repository.findAndCount({
+            skip: skip * take,
+            take: take,
+        });
+        const response = {
+            complaints: result,
+            count
+        }
+        return response;
+    }
 }
