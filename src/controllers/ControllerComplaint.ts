@@ -20,14 +20,10 @@ export default class ControllerComplaint {
     async create(req: Request, res:Response): Promise<Response>{
         try {
             const complaint:Complaint = Object.assign(new Complaint(), req.body);
-            const createdComplain = await this.complaintRepository.createComplaint(complaint);
-            return res.status(201).json({"msg": createdComplain});
+            await this.complaintRepository.createComplaint(complaint);
+            return res.sendStatus(201);
         } catch (error) {
-            console.error(error);
             return res.status(400).json({"msg": error})
         }
-        
-
     }
-
 }
