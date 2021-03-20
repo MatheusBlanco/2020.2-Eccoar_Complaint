@@ -35,8 +35,17 @@ export default class ControllerComplaint {
         }
     }
     async complaints (req: Request, resp: Response): Promise<void> {
-        const response = await this.complaintRepository.getAllComplaints(Number(req.query.skip), Number(req.query.take));
-        resp.status(200).json(response);
+        try{
+            const response = await this.complaintRepository.getAllComplaints(Number(req.query.skip), Number(req.query.take));
+            resp.status(200).json(response);
+        }
+        catch(error){
+            resp.status(400);
+            resp.json({
+                status: 'erro',
+                error
+            })
+        }
     }
 
 }
