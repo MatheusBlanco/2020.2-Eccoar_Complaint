@@ -14,11 +14,11 @@ export class Complaint {
     @Column({length: 255, nullable: false})
     description: string;
 
-    @Column({nullable: false})
+    @Column({nullable: false, type: "double"})
     @IsLatitude()
     latitude: number;
 
-    @Column({nullable: false})
+    @Column({nullable: false, type: "double"})
     @IsLongitude()
     longitude: number;
 
