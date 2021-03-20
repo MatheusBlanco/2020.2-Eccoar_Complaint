@@ -19,11 +19,19 @@ export default class ControllerComplaint {
 
     async create(req: Request, res:Response): Promise<Response>{
         try {
+            let missingFields:string[] = [];
+            const fields = ['name', 'description', 'latitude', 'longitude', 'userId', 'category'];
+            fields.forEach(field => {
+                if(!(field in req.body)) missingFields.push(field);
+            });
+
+            if(missingFields.length > 0) return res.status(400).json({"msg": `Missing fields [${missingFields}]`})
+
             const complaint:Complaint = Object.assign(new Complaint(), req.body);
             await this.complaintRepository.createComplaint(complaint);
             return res.sendStatus(201);
         } catch (error) {
-            return res.status(400).json({"msg": error})
+            return res.status(400).json({"msg": error});
         }
     }
 }
