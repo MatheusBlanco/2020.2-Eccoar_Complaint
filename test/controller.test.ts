@@ -29,7 +29,7 @@ describe("CreateComplaint",() => {
         };
         const mResp = mockResponse();
 
-        const createComplaint = jest.spyOn(ComplaintRepository.prototype, 'createComplaint').mockImplementation();
+        jest.spyOn(ComplaintRepository.prototype, 'createComplaint').mockImplementation();
 
         await controller.create(mReq, mResp);
         expect(mResp.sendStatus).toHaveBeenCalledWith(201);
@@ -40,7 +40,7 @@ describe("CreateComplaint",() => {
         const mReq = {} as Request;
         const mResp = mockResponse();
 
-        const createComplaint = jest.spyOn(ComplaintRepository.prototype, 'createComplaint').mockImplementation(() => {throw new Error()});
+        jest.spyOn(ComplaintRepository.prototype, 'createComplaint').mockImplementation(() => {throw new Error()});
 
         await controller.create(mReq, mResp);
         expect(mResp.status).toHaveBeenCalledWith(400);
