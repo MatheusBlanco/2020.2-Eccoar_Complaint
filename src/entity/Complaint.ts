@@ -34,6 +34,6 @@ export class Complaint {
     @Column({type: "datetime", nullable: true})
     closeDate: string;
 
-    @Column({nullable: false})
+    @Column({nullable: false, default: false, type: "tinyint"})
     status: boolean;
 }

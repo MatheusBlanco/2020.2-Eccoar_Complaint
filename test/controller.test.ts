@@ -24,8 +24,7 @@ describe("CreateComplaint",() => {
             "latitude": 10,
             "longitude": -10,
             "userId": 0,
-            "category": "Hole",
-            "status": false
+            "category": "Hole"
         };
         const mResp = mockResponse();
 
