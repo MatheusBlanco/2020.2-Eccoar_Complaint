@@ -5,8 +5,11 @@ import ControllerComplaint from './controllers/ControllerComplaint';
 const routers = Router();
 const controller = new ControllerComplaint();
 
-routers.get("/api/ping", (req: Request, resp: Response) => {
-    controller.pong(req, resp);
+routers.get("/api/ping", (req: Request, res: Response) => {
+    controller.pong(req, res);
 });
 
+routers.post("/api/complaint/create", (req:Request, res: Response) => {
+    controller.create(req, res);
+});
 export default routers;

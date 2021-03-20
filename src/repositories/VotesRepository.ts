@@ -1,4 +1,4 @@
-import {getRepository} from "typeorm";
+import { getRepository } from "typeorm";
 import { Votes } from "../entity/Votes";
 
 export class VotesRepository {
