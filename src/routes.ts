@@ -9,7 +9,12 @@ routers.get("/api/ping", (req: Request, res: Response) => {
     controller.pong(req, res);
 });
 
-routers.post("/api/complaint/create", (req:Request, res: Response) => {
+routers.post("/api/complaint/create", (req: Request, res: Response) => {
     controller.create(req, res);
 });
+
+routers.get("/api/complaints", (req: Request, resp: Response) => {
+    controller.complaints(req, resp);
+});
+
 export default routers;
