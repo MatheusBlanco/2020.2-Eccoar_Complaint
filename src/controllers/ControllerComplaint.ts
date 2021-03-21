@@ -4,7 +4,7 @@ import { ComplaintRepository } from '../repositories/ComplaintRepository';
 
 export default class ControllerComplaint {
 
-    complaintRepository:ComplaintRepository;
+    complaintRepository: ComplaintRepository;
 
     constructor() {
         this.complaintRepository = new ComplaintRepository();
@@ -34,12 +34,13 @@ export default class ControllerComplaint {
             return res.status(400).json({"msg": error});
         }
     }
+
     async complaints (req: Request, resp: Response): Promise<void> {
         try{
-            const response = await this.complaintRepository.getAllComplaints(Number(req.query.skip), Number(req.query.take));
+            const response = await this.complaintRepository.getAllComplaints(Number(req.query.skip), Number(req.query.take), String(req.query.orderDate));
             resp.status(200).json(response);
         }
-        catch(error){
+        catch (error) {
             resp.status(400);
             resp.json({
                 status: 'erro',

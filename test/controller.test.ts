@@ -44,7 +44,7 @@ describe("complaints", () => {
             complaints: [complaintMock],
             count: 100
         });
-    });  
+    });
 
     test("shouldn't take complaints from complaints()", async () => {
         jest.spyOn(ComplaintRepository.prototype, "getAllComplaints").mockImplementationOnce(() => Promise.reject(new Error()))
@@ -57,7 +57,7 @@ describe("complaints", () => {
         const mResp = mockResponse();
         await controller.complaints(mReq, mResp);
         expect(mResp.status).toHaveBeenCalledWith(400);
-    });  
+    });
 })
 
 describe("CreateComplaint",() => {
@@ -103,7 +103,7 @@ describe("pong", () => {
         const mResp = mockResponse();
         await controller.pong(mReq, mResp);
         expect(mResp.status).toHaveBeenCalledWith(200);
-        expect(mResp.json).toHaveBeenCalledWith({ping: "pong"});
+        expect(mResp.json).toHaveBeenCalledWith({ ping: "pong" });
     });
 
 });
