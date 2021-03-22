@@ -17,4 +17,12 @@ routers.get("/api/complaints", (req: Request, resp: Response) => {
     controller.complaints(req, resp);
 });
 
+routers.post("/api/vote/add", (req: Request, res:Response) => {
+    controller.addVote(req, res);
+});
+
+routers.get("/api/vote/list", (req: Request, res:Response) => {
+    controller.getUserVote(req, res);
+});
+
 export default routers;

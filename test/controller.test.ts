@@ -1,8 +1,11 @@
 import ControllerComplaint from '../src/controllers/ControllerComplaint';
 import { Request, Response } from 'express';
-import  { ComplaintRepository } from '../src/repositories/ComplaintRepository';
+import { ComplaintRepository } from '../src/repositories/ComplaintRepository';
 jest.mock('../src/repositories/ComplaintRepository');
 import { Complaint } from '../src/entity/Complaint';
+import { VotesRepository } from '../src/repositories/VotesRepository';
+import { Votes } from '../src/entity/Votes';
+jest.mock('../src/repositories/VotesRepository');
 
 const mockResponse = () => {
     const res: Response = {} as Response;
@@ -22,8 +25,15 @@ const complaintMock = {
     "category": "Hole",
     "creationDate": "2020-09-07T03:35:18.000Z",
     "closeDate": "2021-07-11T15:10:00.000Z",
-    "status": false
+    "status": "open"
 } as Complaint
+
+const voteMock = {
+    'id': 10,
+    'userId': 200,
+    'complaintId': 100,
+    'typeVote': 'complaintUpvote'
+} as Votes
 
 describe("complaints", () => {
     test("should take complaints from complaints()", async () => {
@@ -60,8 +70,8 @@ describe("complaints", () => {
     });
 })
 
-describe("CreateComplaint",() => {
-    test("should return status code 201", async() => {
+describe("CreateComplaint", () => {
+    test("should return status code 201", async () => {
 
         const controller = new ControllerComplaint();
         const mReq = {} as Request;
@@ -86,11 +96,10 @@ describe("CreateComplaint",() => {
         const mReq = {} as Request;
         const mResp = mockResponse();
 
-        jest.spyOn(ComplaintRepository.prototype, 'createComplaint').mockImplementation(() => {throw new Error()});
+        jest.spyOn(ComplaintRepository.prototype, 'createComplaint').mockImplementation(() => { throw new Error() });
 
         await controller.create(mReq, mResp);
         expect(mResp.status).toHaveBeenCalledWith(400);
-
     });
 });
 
@@ -104,6 +113,129 @@ describe("pong", () => {
         await controller.pong(mReq, mResp);
         expect(mResp.status).toHaveBeenCalledWith(200);
         expect(mResp.json).toHaveBeenCalledWith({ ping: "pong" });
+    });
+
+});
+
+describe("addVotes tests", () => {
+    test("Success addVote case", async () => {
+        const controller = new ControllerComplaint();
+        const mReq = {} as Request;
+        mReq.body = {
+            "complaintId": 32,
+            "typeVote": "complaintConfirmed",
+            "userId": 65
+        }
+        const mResp = mockResponse();
+        jest.spyOn(VotesRepository.prototype, 'saveVote').mockImplementation();
+        jest.spyOn(VotesRepository.prototype, 'countVotesInComplaint').mockImplementationOnce(() => Promise.resolve(10));
+        jest.spyOn(ComplaintRepository.prototype, 'update').mockImplementation();
+        jest.spyOn(ComplaintRepository.prototype, 'getById').mockImplementationOnce(() => Promise.resolve(complaintMock));
+        await controller.addVote(mReq, mResp);
+        expect(mResp.sendStatus).toHaveBeenCalledWith(200);
+    });
+
+
+    test("Wrong addVote case: missing field", async () => {
+        const controller = new ControllerComplaint();
+        const mReq = {} as Request;
+        mReq.body = {
+            "complaintId": 32,
+            "typeVote": "complaintConfirmed"
+        }
+        const mResp = mockResponse();
+        await controller.addVote(mReq, mResp);
+
+        expect(mResp.status).toHaveBeenCalledWith(400);
+        expect(mResp.json).toHaveBeenCalledWith({ "msg": `Missing fields [userId]` });
+    });
+
+    test("Wrong addVote case: Not found", async () => {
+        const controller = new ControllerComplaint();
+        const mReq = {} as Request;
+        mReq.body = {
+            "complaintId": 32,
+            "typeVote": "complaintConfirmed",
+            "userId": 65
+        }
+        const mResp = mockResponse();
+        await controller.addVote(mReq, mResp);
+        jest.spyOn(ComplaintRepository.prototype, 'getById').mockImplementation(() => null);
+        expect(mResp.status).toHaveBeenCalledWith(400);
+        expect(mResp.json).toHaveBeenCalledWith({ "error": 'Complaint not found' });
+    });
+
+    test("Success upVote case", async () => {
+        const controller = new ControllerComplaint();
+        const mReq = {} as Request;
+        mReq.body = {
+            "complaintId": 32,
+            "typeVote": "complaintUpvote",
+            "userId": 65
+        }
+        const mResp = mockResponse();
+        jest.spyOn(VotesRepository.prototype, 'saveVote').mockImplementation();
+        jest.spyOn(VotesRepository.prototype, 'countVotesInComplaint').mockImplementationOnce(() => Promise.resolve(10));
+        jest.spyOn(ComplaintRepository.prototype, 'update').mockImplementation();
+        jest.spyOn(ComplaintRepository.prototype, 'getById').mockImplementationOnce(() => Promise.resolve(complaintMock));
+        await controller.addVote(mReq, mResp);
+        expect(mResp.sendStatus).toHaveBeenCalledWith(200);
+    });
+
+    test("Wrong addUpVote case: missing field", async () => {
+        const controller = new ControllerComplaint();
+        const mReq = {} as Request;
+        mReq.body = {
+            "complaintId": 32,
+            "typeVote": "complaintUpvote"
+        }
+        const mResp = mockResponse();
+        await controller.addVote(mReq, mResp);
+
+        expect(mResp.status).toHaveBeenCalledWith(400);
+        expect(mResp.json).toHaveBeenCalledWith({ "msg": `Missing fields [userId]` });
+    });
+
+    test("Wrong addUpVote case: Not found", async () => {
+        const controller = new ControllerComplaint();
+        const mReq = {} as Request;
+        mReq.body = {
+            "complaintId": 32,
+            "typeVote": "complaintUpvote",
+            "userId": 65
+        }
+        const mResp = mockResponse();
+        await controller.addVote(mReq, mResp);
+        jest.spyOn(ComplaintRepository.prototype, 'getById').mockImplementation(() => null);
+        expect(mResp.status).toHaveBeenCalledWith(400);
+        expect(mResp.json).toHaveBeenCalledWith({ "error": 'Complaint not found' });
+    });
+});
+
+describe("getUserVotes test", () => {
+
+    test("successfuly getting user votes", async () => {
+        const controller = new ControllerComplaint();
+        const mReq = {} as Request;
+        mReq.query = {
+            "userId": '100'
+        }
+        const mResp = mockResponse();
+
+        jest.spyOn(VotesRepository.prototype, 'getUserVotes').mockImplementationOnce(() => Promise.resolve([voteMock]));
+        await controller.getUserVote(mReq, mResp);
+        expect(mResp.status).toHaveBeenCalledWith(200);
+    });
+
+    test('Wrong getUserVotes: null field', async () => {
+        const controller = new ControllerComplaint();
+        const mReq = {} as Request;
+        mReq.query = {}
+        const mResp = mockResponse();
+
+        await controller.getUserVote(mReq, mResp);
+        expect(mResp.status).toHaveBeenCalledWith(400);
+        expect(mResp.json).toHaveBeenCalledWith({ "error": 'User not found' });
     });
 
 });
