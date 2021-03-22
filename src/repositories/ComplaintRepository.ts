@@ -1,10 +1,5 @@
 import { Votes } from "../entity/Votes";
-import {
-  createQueryBuilder,
-  getRepository,
-  getConnection,
-  getManager,
-} from "typeorm";
+import { getRepository } from "typeorm";
 import { Complaint } from "../entity/Complaint";
 
 export class ComplaintRepository {

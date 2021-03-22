@@ -1,9 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm";
 import { IsLatitude, IsLongitude } from 'class-validator';
 import { Category } from "./../utils/Category";
 import { Status } from "./../utils/Status";
-import { Votes } from "./Votes";
-import { type } from "os";
 
 @Entity("tb_complaint")
 export class Complaint {

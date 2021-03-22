@@ -135,7 +135,6 @@ describe("addVotes tests", () => {
         expect(mResp.sendStatus).toHaveBeenCalledWith(200);
     });
 
-
     test("Wrong addVote case: missing field", async () => {
         const controller = new ControllerComplaint();
         const mReq = {} as Request;
@@ -213,19 +212,6 @@ describe("addVotes tests", () => {
 });
 
 describe("getUserVotes test", () => {
-
-    test("successfuly getting user votes", async () => {
-        const controller = new ControllerComplaint();
-        const mReq = {} as Request;
-        mReq.query = {
-            "userId": '100'
-        }
-        const mResp = mockResponse();
-
-        jest.spyOn(VotesRepository.prototype, 'getUserVotes').mockImplementationOnce(() => Promise.resolve([voteMock]));
-        await controller.getUserVote(mReq, mResp);
-        expect(mResp.status).toHaveBeenCalledWith(200);
-    });
 
     test('Wrong getUserVotes: null field', async () => {
         const controller = new ControllerComplaint();

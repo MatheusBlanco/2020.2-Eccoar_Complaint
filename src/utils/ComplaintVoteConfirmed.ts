@@ -3,7 +3,7 @@ import { ComplaintRepository } from "../repositories/ComplaintRepository";
 import { ComplaintVote } from "./ComplaintVote";
 import { Status } from './Status';
 
-export default class ComplaintVoteConfirmed implements ComplaintVote{
+export default class ComplaintVoteConfirmed implements ComplaintVote {
     async validateVote(count: number, complaint: Complaint, repository: ComplaintRepository): Promise<void> {
         if (count > 9 && complaint.status !== 'finished'){
             const closeDate = new Date();
