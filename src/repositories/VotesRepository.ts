@@ -13,4 +13,10 @@ export class VotesRepository {
         const repository = getRepository(Votes);
         repository.save(vote);
     }
+
+    getUserVotes(userId: number): Promise<Votes[]> {
+        const repository = getRepository(Votes);
+
+        return repository.find({userId});
+    }
 }
