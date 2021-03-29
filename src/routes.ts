@@ -29,4 +29,8 @@ routers.get('/api/complaint/votes', (req: Request, res: Response) => {
 	controller.complaintWithVote(req, res);
 });
 
+routers.get("/api/complaints/wait", (req: Request, res: Response) => {
+    controller.waitComplaintsByCategory(req, res);
+});
+
 export default routers;

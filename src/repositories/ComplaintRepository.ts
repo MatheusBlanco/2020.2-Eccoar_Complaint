@@ -1,6 +1,7 @@
 import { getRepository } from 'typeorm';
 import { Votes } from '@entity/Votes';
 import { Complaint } from '@entity/Complaint';
+import { Category } from "../utils/Category";
 
 export class ComplaintRepository {
 	getById(id: number): Promise<Complaint> {
@@ -76,4 +77,10 @@ export class ComplaintRepository {
 
 		return getComplaintVote;
 	}
+
+  async getWaitComplaints(category: Category): Promise<Complaint[]> {
+    const repository = getRepository(Complaint);
+    const response = await repository.find({where: {category: category, status : true}})
+    return response;
+  }
 }
