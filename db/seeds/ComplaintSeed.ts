@@ -12,7 +12,8 @@ export class ComplaintSeed {
             complaint.latitude = data.latitude;
             complaint.longitude = data.longitude;
             complaint.status = data.status;
-            complaint.category = Category.Hole;
+            complaint.picture = data.picture;
+            complaint.category = data.category as Category;
             complaint.closeDate = data.closeDate;
             complaint.creationDate = data.creationDate;
             complaint.name = data.name;
