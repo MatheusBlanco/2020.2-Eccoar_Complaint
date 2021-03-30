@@ -1,11 +1,19 @@
-import {Entity, PrimaryColumn} from "typeorm";
+import { VoteType } from "./../utils/VoteType";
+import {Column, Entity, PrimaryGeneratedColumn, Unique} from "typeorm";
 
 @Entity("tb_votes")
+@Unique("vote", ["userId", "complaintId", "typeVote"])
 export class Votes {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column({nullable: false})
     userId: number;
 
-    @PrimaryColumn()
+    @Column({nullable: false})
     complaintId: number;
+
+    @Column({type: "enum", enum:VoteType, nullable: false})
+    typeVote: VoteType;
 }

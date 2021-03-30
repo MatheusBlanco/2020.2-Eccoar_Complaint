@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm";
 import { IsLatitude, IsLongitude } from 'class-validator';
 import { Category } from "./../utils/Category";
+import { Status } from "./../utils/Status";
 
 @Entity("tb_complaint")
 export class Complaint {
@@ -34,9 +35,9 @@ export class Complaint {
     @Column({type: "datetime", nullable: true})
     closeDate: string;
 
-    @Column({nullable: false, default: false, type: "tinyint"})
-    status: boolean;
-
     @Column({length: 255, nullable: true})
     picture: string;
+
+    @Column({nullable: false, default: "open", type: "enum", enum: Status })
+    status: Status;
 }
