@@ -35,6 +35,39 @@ const voteMock = {
     'typeVote': 'complaintUpvote'
 } as Votes
 
+const getVote = [    {
+    "complaint_id": 1,
+    "complaint_name": "Geno",
+    "complaint_description": "Thyroid vessel ligation",
+    "complaint_latitude": 31.975314,
+    "complaint_longitude": 35.196042,
+    "complaint_userId": 1,
+    "complaint_category": "Hole",
+    "complaint_creationDate": "2021-03-12T10:02:31.000Z",
+    "complaint_closeDate": "2021-11-25T19:05:09.000Z",
+    "complaint_status": "open",
+    "vote_id": 101,
+    "vote_userId": 1,
+    "vote_complaintId": 1,
+    "vote_typeVote": "complaintConfirmed"
+},
+{
+    "complaint_id": 2,
+    "complaint_name": "Doro",
+    "complaint_description": "Colostomy NOS",
+    "complaint_latitude": -6.85247,
+    "complaint_longitude": 111.5587544,
+    "complaint_userId": 2,
+    "complaint_category": "Hole",
+    "complaint_creationDate": "2020-04-20T09:29:31.000Z",
+    "complaint_closeDate": "2021-10-01T09:17:05.000Z",
+    "complaint_status": "wait",
+    "vote_id": 111,
+    "vote_userId": 1,
+    "vote_complaintId": 2,
+    "vote_typeVote": "complaintConfirmed"
+}];
+
 describe("complaints", () => {
     test("should take complaints from complaints()", async () => {
         jest.spyOn(ComplaintRepository.prototype, "getAllComplaints").mockImplementationOnce(() => Promise.resolve({
@@ -70,7 +103,7 @@ describe("complaints", () => {
     });
 })
 
-describe("CreateComplaint", () => {
+describe("Create complaints Tests", () => {
     test("should return status code 201", async () => {
 
         const controller = new ControllerComplaint();
@@ -222,6 +255,35 @@ describe("getUserVotes test", () => {
         await controller.getUserVote(mReq, mResp);
         expect(mResp.status).toHaveBeenCalledWith(400);
         expect(mResp.json).toHaveBeenCalledWith({ "error": 'User not found' });
+    });
+
+});
+
+describe("list upvotes tests", () => {
+    test("Success getUserVote case", async () => {
+        const controller = new ControllerComplaint();
+        const mReq = {} as Request;
+        mReq.query = {
+            "userId": "1",
+            "take": "0",
+            "skip": "0"
+        }
+        const mResp = mockResponse();
+        jest.spyOn(ComplaintRepository.prototype, 'getComplaintsWithVotes').mockImplementationOnce(() => Promise.resolve(getVote));
+        await controller.getUserVote(mReq, mResp);
+        expect(mResp.status).toHaveBeenCalledWith(200);
+        expect(mResp.json).toHaveBeenCalledWith(getVote);
+    });
+
+    test("Wrong getUserVote case: missing userId", async () => {
+        const controller = new ControllerComplaint();
+        const mReq = {} as Request;
+        mReq.query = {}
+        const mResp = mockResponse();
+        await controller.getUserVote(mReq, mResp);
+
+        expect(mResp.status).toHaveBeenCalledWith(400);
+        expect(mResp.json).toHaveBeenCalledWith({ "error": "User not found" });
     });
 
 });
