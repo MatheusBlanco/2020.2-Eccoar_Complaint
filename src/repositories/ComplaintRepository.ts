@@ -4,10 +4,11 @@ import { Complaint } from '@entity/Complaint';
 import { Category } from "../utils/Category";
 
 export class ComplaintRepository {
-	getById(id: number): Promise<Complaint> {
-		const repository = getRepository(Complaint);
-		return repository.findOne({ id });
-	}
+
+  getById(id: number): Promise<Complaint> {
+    const repository = getRepository(Complaint);
+    return repository.findOne({ id });
+  }
 
 	createComplaint(complaint: Complaint): Promise<Complaint> {
 		const repository = getRepository(Complaint);
@@ -80,7 +81,6 @@ export class ComplaintRepository {
 
   async getWaitComplaints(category: Category): Promise<Complaint[]> {
     const repository = getRepository(Complaint);
-    const response = await repository.find({where: {category: category, status : true}})
-    return response;
+    return await repository.find({where: {category: category, status: "wait"}});
   }
 }

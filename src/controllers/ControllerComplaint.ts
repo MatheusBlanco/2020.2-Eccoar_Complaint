@@ -143,10 +143,13 @@ export default class ControllerComplaint {
     
     async waitComplaintsByCategory (req: Request, res: Response): Promise<Response> {
         try {
+            if (req.query.category == null || req.query.category === ''){
+                throw new Error("Category is missing")
+            }
             const response = await this.complaintRepository.getWaitComplaints(String(req.query.category) as Category);
             return res.status(200).json(response);
         } catch (error) {
-            return res.status(400);
+            return res.status(400).json({ "error": error.message });
         }
     }
 }
