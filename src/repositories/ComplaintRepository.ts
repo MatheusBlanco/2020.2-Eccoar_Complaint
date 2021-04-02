@@ -59,4 +59,23 @@ export class ComplaintRepository {
 
     return getComplaintsVotes;
   }
+
+  async getComplaintById(
+    userId: number,
+    complaintId: number,
+  ): Promise<any> {
+    const repository = getRepository(Complaint);
+
+    const getComplaintVote = await repository
+      .createQueryBuilder("complaint")
+      .leftJoinAndSelect(
+        Votes,
+        "vote",
+        "vote.complaintId = complaint.id and vote.userId = :userId",
+        { userId }
+      ).where("complaint.id = :complaintId", { complaintId })
+      .getRawOne();
+
+    return getComplaintVote;
+  }
 }
