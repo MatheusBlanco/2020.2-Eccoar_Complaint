@@ -91,6 +91,21 @@ export default class ControllerComplaint {
 		}
 	}
 
+	async complaintWithVote(req: Request, resp: Response): Promise<void> {
+		try {
+			const response = await this.complaintRepository.getComplaintById(
+				Number(req.query.userId),
+				Number(req.query.complaintId),
+			);
+			resp.status(200).json(response);
+		} catch (error) {
+			resp.status(400);
+			resp.json({
+				error,
+			});
+		}
+	}
+
 	async addVote(req: Request, res: Response): Promise<Response> {
 		const fields = ['userId', 'complaintId', 'typeVote'];
 		const missingFields = this.queryValidator(fields, req);
