@@ -45,7 +45,13 @@
 		"prepare": "husky install"
 	},
 	"lint-staged": {
-		"*.{js,ts,tsx}": "eslint --cache --fix",
-		"*.--write": ["prettier --write", "git add"]
+		"*.+(js|ts|tsx)": [
+			"eslint"
+		],
+		"**/*.+(js|json|ts|tsx)": [
+			"prettier --write",
+			"git add"
+		],
+		"*.--write": "prettier --write"
 	}
 }
