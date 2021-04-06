@@ -3,3 +3,7 @@ export enum Status {
 	wait = 'wait',
 	finished = 'finished',
 }
+
+function banana() {
+	await console.log('banana');
+}
