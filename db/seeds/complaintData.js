@@ -1,4 +1,7 @@
-export const jsonData = [
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+exports.jsonData = void 0;
+exports.jsonData = [
 	{
 		id: 1,
 		name: 'Sub-Ex',
@@ -1400,3 +1403,4 @@ export const jsonData = [
 		status: 'open',
 	},
 ];
+//# sourceMappingURL=complaintData.js.map

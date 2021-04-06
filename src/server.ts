@@ -1,7 +1,7 @@
-import "reflect-metadata";
+import 'reflect-metadata';
 import * as express from 'express';
 import routers from './routes';
-import { initializeDB } from "./db";
+import { initializeDB } from './db';
 import * as cors from 'cors';
 import * as morgan from 'morgan';
 
@@ -15,5 +15,5 @@ app.use(morgan('combined'));
 app.use(cors());
 app.use(routers);
 app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`)
+	console.log(`Listening on port ${PORT}`);
 });

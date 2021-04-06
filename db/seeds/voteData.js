@@ -1,4 +1,7 @@
-export const voteData = [
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+exports.voteData = void 0;
+exports.voteData = [
 	{ userId: 10, complaintId: 73, typeVote: 'complaintUpvote' },
 	{ userId: 100, complaintId: 100, typeVote: 'complaintUpvote' },
 	{ userId: 82, complaintId: 50, typeVote: 'complaintUpvote' },
@@ -100,3 +103,4 @@ export const voteData = [
 	{ userId: 25, complaintId: 100, typeVote: 'complaintConfirmed' },
 	{ userId: 26, complaintId: 70, typeVote: 'complaintConfirmed' },
 ];
+//# sourceMappingURL=voteData.js.map

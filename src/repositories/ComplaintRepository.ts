@@ -1,6 +1,11 @@
-import { Votes } from "../entity/Votes";
-import { getRepository } from "typeorm";
-import { Complaint } from "../entity/Complaint";
+import { Votes } from '../entity/Votes';
+import { getRepository } from 'typeorm';
+import { Complaint } from '../entity/Complaint';
+
+interface PaginatedComplaints {
+	complaints: Array<Complaint>;
+	count: number;
+}
 
 export class ComplaintRepository {
   getById(id: number): Promise<Complaint> {
