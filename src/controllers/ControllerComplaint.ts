@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { Votes } from '../entity/Votes';
-import { Complaint } from '../entity/Complaint';
-import { ComplaintRepository } from '../repositories/ComplaintRepository';
-import { VotesRepository } from '../repositories/VotesRepository';
-import ComplaintVoteConfirmed from '../utils/ComplaintVoteConfirmed';
-import { ComplaintVote } from '../utils/ComplaintVote';
-import ComplaintUpvote from '../utils/ComplaintUpvote';
+import { Votes } from '@entity/Votes';
+import { Complaint } from '@entity/Complaint';
+import { ComplaintRepository } from '@repositories/ComplaintRepository';
+import { VotesRepository } from '@repositories/VotesRepository';
+import ComplaintVoteConfirmed from '@utils/ComplaintVoteConfirmed';
+import { ComplaintVote } from '@utils/ComplaintVote';
+import ComplaintUpvote from '@utils/ComplaintUpvote';
 
 export default class ControllerComplaint {
 	complaintRepository: ComplaintRepository;

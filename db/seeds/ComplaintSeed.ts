@@ -1,11 +1,11 @@
-import { Votes } from '../../src/entity/Votes';
-import { VoteType } from '../../src/utils/VoteType';
-import { Complaint } from '../../src/entity/Complaint';
-import { Category } from '../../src/utils/Category';
+import { Votes } from '@entity/Votes';
+import { VoteType } from '@utils/VoteType';
+import { Complaint } from '@entity/Complaint';
+import { Category } from '@utils/Category';
 
 import { jsonData } from './complaintData';
 import { voteData } from './voteData';
-import { Status } from '../../src/utils/Status';
+import { Status } from '@utils/Status';
 
 export class ComplaintSeed {
 	seedDatabase() {

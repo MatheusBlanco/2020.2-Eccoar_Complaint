@@ -5,8 +5,8 @@ import {
 	CreateDateColumn,
 } from 'typeorm';
 import { IsLatitude, IsLongitude } from 'class-validator';
-import { Category } from './../utils/Category';
-import { Status } from './../utils/Status';
+import { Category } from '@utils/Category';
+import { Status } from '@utils/Status';
 
 @Entity('tb_complaint')
 export class Complaint {

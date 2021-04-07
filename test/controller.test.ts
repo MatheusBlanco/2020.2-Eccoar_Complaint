@@ -1,11 +1,11 @@
-import ControllerComplaint from '../src/controllers/ControllerComplaint';
+import ControllerComplaint from '@controllers/ControllerComplaint';
 import { Request, Response } from 'express';
-import { ComplaintRepository } from '../src/repositories/ComplaintRepository';
-import { Complaint } from '../src/entity/Complaint';
-import { VotesRepository } from '../src/repositories/VotesRepository';
+import { ComplaintRepository } from '@repositories/ComplaintRepository';
+import { Complaint } from '@entity/Complaint';
+import { VotesRepository } from '@repositories/VotesRepository';
 
-jest.mock('../src/repositories/ComplaintRepository');
-jest.mock('../src/repositories/VotesRepository');
+jest.mock('@repositories/ComplaintRepository');
+jest.mock('@repositories/VotesRepository');
 
 const mockResponse = () => {
 	const res: Response = {} as Response;

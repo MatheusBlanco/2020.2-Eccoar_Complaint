@@ -1,5 +1,5 @@
-import { Complaint } from '../entity/Complaint';
-import { ComplaintRepository } from '../repositories/ComplaintRepository';
+import { Complaint } from '@entity/Complaint';
+import { ComplaintRepository } from '@repositories/ComplaintRepository';
 import { ComplaintVote } from './ComplaintVote';
 import { Status } from './Status';
 
