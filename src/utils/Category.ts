@@ -1,5 +1,5 @@
 export enum Category {
 	Hole = 'Hole',
-	Electricity = 'Eletricity',
 	Water = 'Water',
+    Electricity="Electricity"
 }
