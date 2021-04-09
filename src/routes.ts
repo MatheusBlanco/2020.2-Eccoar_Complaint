@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 
 import ControllerComplaint from '@controllers/ControllerComplaint';
 
@@ -9,8 +9,8 @@ routers.get('/api/ping', (req: Request, res: Response) => {
 	controller.pong(req, res);
 });
 
-routers.post('/api/complaint/create', (req: Request, res: Response) => {
-	controller.create(req, res);
+routers.post("/api/complaint/create", (req: Request, res: Response, next: NextFunction) => {
+    controller.create(req, res, next);
 });
 
 routers.get('/api/complaints', (req: Request, resp: Response) => {
