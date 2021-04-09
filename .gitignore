@@ -4,3 +4,8 @@ node_modules/
 build/
 tmp/
 temp/
+lint-report.html
+test-report.json
+test-report.xml
+coverage/
+*.tgz

@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "eccoar-complaint.fullname" . }}
+  labels:
+    {{- include "eccoar-complaint.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "eccoar-complaint.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "eccoar-complaint.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.app.app_port }}
+              protocol: TCP
+          env:
+            - name: APP_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: eccoar-config
+                  key: APP_PORT
+            - name: TYPEORM_CONNECTION
+              valueFrom:
+                configMapKeyRef:
+                  name: eccoar-config
+                  key: TYPEORM_CONNECTION
+            - name: TYPEORM_HOST
+              value: complaints-db
+            - name: TYPEORM_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: eccoar-config
+                  key: TYPEORM_USERNAME
+            - name: TYPEORM_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: complaints_db
+            - name: TYPEORM_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: root_password
+            - name: TYPEORM_SYNCHRONIZE
+              valueFrom:
+                configMapKeyRef:
+                  name: eccoar-config
+                  key: TYPEORM_SYNCHRONIZE
+            - name: TYPEORM_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: eccoar-config
+                  key: TYPEORM_PORT
+            - name: TYPEORM_LOGGING
+              valueFrom:
+                configMapKeyRef:
+                  name: eccoar-config
+                  key: TYPEORM_LOGGING
+            - name: TYPEORM_ENTITIES
+              valueFrom:
+                configMapKeyRef:
+                  name: eccoar-config
+                  key: TYPEORM_ENTITIES
+            - name: TYPEORM_MIGRATIONS
+              valueFrom:
+                configMapKeyRef:
+                  name: eccoar-config
+                  key: TYPEORM_MIGRATIONS
+            - name: TYPEORM_SUBSCRIBERS
+              valueFrom:
+                configMapKeyRef:
+                  name: eccoar-config
+                  key: TYPEORM_SUBSCRIBERS
+            - name: TYPEORM_ENTITIES_DIR
+              valueFrom:
+                configMapKeyRef:
+                  name: eccoar-config
+                  key: TYPEORM_ENTITIES_DIR
+            - name: TYPEORM_MIGRATIONS_DIR
+              valueFrom:
+                configMapKeyRef:
+                  name: eccoar-config
+                  key: TYPEORM_MIGRATIONS_DIR
+            - name: TYPEORM_SUBSCRIBERS_DIR
+              valueFrom:
+                configMapKeyRef:
+                  name: eccoar-config
+                  key: TYPEORM_SUBSCRIBERS_DIR
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
