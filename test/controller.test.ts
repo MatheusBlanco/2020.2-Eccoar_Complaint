@@ -31,13 +31,6 @@ const complaintMock = {
     "status": "open"
 } as Complaint;
 
-const voteMock = {
-    'id': 10,
-    'userId': 200,
-    'complaintId': 100,
-    'typeVote': 'complaintUpvote'
-} as Votes;
-
 const complaintWithVote = {
     "complaint_id": 2,
     "complaint_name": "mockComplaintName",
