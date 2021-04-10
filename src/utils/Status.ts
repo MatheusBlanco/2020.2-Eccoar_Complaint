@@ -1,5 +1,5 @@
 export enum Status {
-    open="open",
-    wait="wait",
-    finished="finished"
+	open = 'open',
+	wait = 'wait',
+	finished = 'finished',
 }

@@ -1,4 +1,4 @@
 export enum VoteType {
-    complaintUpvote="complaintUpvote",
-    complaintConfirmed="complaintConfirmed"
+	complaintUpvote = 'complaintUpvote',
+	complaintConfirmed = 'complaintConfirmed',
 }
