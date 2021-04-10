@@ -1,12 +1,13 @@
-import { Request, Response, NextFunction } from 'express';
-import { Votes } from '@entity/Votes';
-import { Complaint } from '@entity/Complaint';
-import { ComplaintRepository } from '@repositories/ComplaintRepository';
-import { VotesRepository } from '@repositories/VotesRepository';
-import ComplaintVoteConfirmed from '@utils/ComplaintVoteConfirmed';
-import { ComplaintVote } from '@utils/ComplaintVote';
-import ComplaintUpvote from '@utils/ComplaintUpvote';
-import { Category } from '@utils/Category';
+import { NextFunction, Request, Response } from "express";
+import { Votes } from "../entity/Votes";
+import { VotesRepository } from "../repositories/VotesRepository";
+import ComplaintUpvote from "../utils/ComplaintUpvote";
+import { ComplaintVote } from "../utils/ComplaintVote";
+import ComplaintVoteConfirmed from "../utils/ComplaintVoteConfirmed";
+import { Complaint } from '../entity/Complaint';
+import { ComplaintRepository } from '../repositories/ComplaintRepository';
+import { ComplaintService } from '../services/ComplaintService';
+import { CheckFields } from '../utils/CheckFields';
 
 export default class ControllerComplaint {
     complaintRepository: ComplaintRepository;
@@ -85,10 +86,10 @@ export default class ControllerComplaint {
             })
         }
     }  
-/*
+
     async addVote(req: Request, res: Response): Promise<Response> {
         const fields = ['userId', 'complaintId', 'typeVote'];
-        const missingFields = this.queryValidator(fields, req);
+        const missingFields = CheckFields(fields, req.body);
         if (missingFields.length > 0) {
             return res.status(400).json({ "msg": `Missing fields [${missingFields}]` });
         }
@@ -120,6 +121,5 @@ export default class ControllerComplaint {
         } catch (error) {
             return res.status(400).json({ "error": error.message });
         }
-    } 
-    */
+    }
 }
