@@ -6,7 +6,7 @@ import { VotesRepository } from '@repositories/VotesRepository';
 import ComplaintVoteConfirmed from '@utils/ComplaintVoteConfirmed';
 import { ComplaintVote } from '@utils/ComplaintVote';
 import ComplaintUpvote from '@utils/ComplaintUpvote';
-import { Category } from "src/utils/Category";
+import { Category } from "@utils/Category";
 
 export default class ControllerComplaint {
 	complaintRepository: ComplaintRepository;

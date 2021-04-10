@@ -1,12 +1,14 @@
 import ControllerComplaint from '@controllers/ControllerComplaint';
 import { Request, Response } from 'express';
-import { ComplaintRepository } from '@repositories/ComplaintRepository';
-import { Complaint } from '@entity/Complaint';
-import { VotesRepository } from '@repositories/VotesRepository';
-import { Votes } from '@entity/Votes';
 
 jest.mock('@repositories/ComplaintRepository');
 jest.mock('@repositories/VotesRepository');
+import { ComplaintRepository } from '@repositories/ComplaintRepository';
+jest.mock('@repositories/ComplaintRepository');
+import { Complaint } from '@entity/Complaint';
+import { VotesRepository } from '@repositories/VotesRepository';
+import { Votes } from '@entity/Votes';
+import { ComplaintWithVote } from '@utils/ComplaintWithVote';
 
 const mockResponse = () => {
 	const res: Response = {} as Response;
@@ -37,40 +39,41 @@ const voteMock = {
 } as Votes;
 
 const complaintWithVote = {
-    "complaint_id": 1,
-    "complaint_name": "Geno",
-    "complaint_description": "Thyroid vessel ligation",
-    "complaint_latitude": 31.975314,
-    "complaint_longitude": 35.196042,
-    "complaint_userId": 1,
-    "complaint_category": "Hole",
-    "complaint_creationDate": "2021-03-12T10:02:31.000Z",
-    "complaint_closeDate": "2021-11-25T19:05:09.000Z",
+    "complaint_id": 2,
+    "complaint_name": "mockComplaintName",
+    "complaint_description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+    "complaint_latitude": 36.275231,
+    "complaint_longitude": 113.310158,
+    "complaint_userId": 74,
+    "complaint_category": "Water",
+    "complaint_creationDate": "2021-02-21T18:52:45.000Z",
+    "complaint_closeDate": "2020-11-11T05:41:31.000Z",
+    "complaint_picture": "http://dummyimage.com/237x100.png/cc0000/ffffff",
     "complaint_status": "open",
-    "vote_id": 101,
-    "vote_userId": 1,
-    "vote_complaintId": 1,
-    "vote_typeVote": "complaintConfirmed"
-};
+    "vote_id": null,
+    "vote_userId": null,
+    "vote_complaintId": null,
+    "vote_typeVote": null
+} as ComplaintWithVote;
 
 const getVote = [    
-    complaintWithVote,
 {
-    "complaint_id": 2,
-    "complaint_name": "Doro",
-    "complaint_description": "Colostomy NOS",
-    "complaint_latitude": -6.85247,
-    "complaint_longitude": 111.5587544,
-    "complaint_userId": 2,
-    "complaint_category": "Hole",
-    "complaint_creationDate": "2020-04-20T09:29:31.000Z",
-    "complaint_closeDate": "2021-10-01T09:17:05.000Z",
-    "complaint_status": "wait",
-    "vote_id": 111,
-    "vote_userId": 1,
-    "vote_complaintId": 2,
-    "vote_typeVote": "complaintConfirmed"
-}];
+    "complaint_id": 1,
+    "complaint_name": "Sub-Ex",
+    "complaint_description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+    "complaint_latitude": 36.275231,
+    "complaint_longitude": 113.310158,
+    "complaint_userId": 74,
+    "complaint_category": "Water",
+    "complaint_creationDate": "2021-02-21T18:52:45.000Z",
+    "complaint_closeDate": "2020-11-11T05:41:31.000Z",
+    "complaint_picture": "http://dummyimage.com/237x100.png/cc0000/ffffff",
+    "complaint_status": "open",
+    "vote_id": null,
+    "vote_userId": null,
+    "vote_complaintId": null,
+    "vote_typeVote": null
+}] as ComplaintWithVote[];
 
 const waitVotes = [
     {

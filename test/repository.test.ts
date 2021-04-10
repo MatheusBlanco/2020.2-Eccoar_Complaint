@@ -1,4 +1,4 @@
-import { Repository, SelectQueryBuilder } from 'typeorm';
+import { Repository } from 'typeorm';
 import { mock } from 'jest-mock-extended';
 import { Complaint } from '../src/entity/Complaint';
 import { ComplaintRepository } from '../src/repositories/ComplaintRepository';
@@ -6,7 +6,7 @@ import { Category } from '../src/utils/Category';
 
 jest.mock('typeorm', () => {
     const repositoryMock = mock<Repository<Complaint>>();
-    repositoryMock.findOne.mockImplementation(async (id) => Promise.resolve({
+    repositoryMock.findOne.mockImplementation(async () => Promise.resolve({
         name: 'mockName',
         description: 'mockDescription',
         latitude: 10.0,
@@ -17,8 +17,7 @@ jest.mock('typeorm', () => {
         status: "open"
     } as Complaint));
 
-    repositoryMock.find.mockImplementation(async (category) => {
-
+    repositoryMock.find.mockImplementation(async () => {
         return [{
             "name": "Stronghold",
             "description": "suscipit nulla elit ac nulla sed vel enim sit amet nunc viverra dapibus nulla suscipit ligula in lacus",
@@ -42,11 +41,11 @@ jest.mock('typeorm', () => {
 
     return {
         getRepository: () => repositoryMock,
-        PrimaryGeneratedColumn: () => { },
-        Column: () => { },
-        Entity: () => { },
-        Unique: () => { },
-        CreateDateColumn: () => { }
+        PrimaryGeneratedColumn: () => { null },
+        Column: () => { null },
+        Entity: () => { null },
+        Unique: () => { null },
+        CreateDateColumn: () => { null }
     }
 });
 
