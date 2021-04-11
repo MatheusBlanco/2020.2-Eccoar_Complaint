@@ -8,9 +8,9 @@ import { voteData } from './voteData';
 import { Status } from '@utils/Status';
 
 export class ComplaintSeed {
-    seedDatabase = (): {complaints: Complaint[], votes: Votes[]} => {
-        const complaints: Complaint[] = [];
-        const votes: Votes[] = [];
+	seedDatabase = (): { complaints: Complaint[]; votes: Votes[] } => {
+		const complaints: Complaint[] = [];
+		const votes: Votes[] = [];
 
 		voteData.forEach((data) => {
 			const vote = new Votes();
@@ -35,5 +35,5 @@ export class ComplaintSeed {
 			complaints.push(complaint);
 		});
 		return { complaints, votes };
-	}
+	};
 }
