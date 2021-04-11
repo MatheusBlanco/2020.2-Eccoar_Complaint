@@ -36,10 +36,17 @@ export default class ControllerComplaint {
 	}
 
 	async pong(req: Request, res: Response): Promise<void> {
-		const pingPong = {
-			ping: 'pong',
-		};
-		res.status(200).json(pingPong);
+		try {
+			const pingPong = {
+				ping: 'pong',
+			};
+			res.status(200).json(pingPong);
+		} catch (error) {
+			res.status(400);
+			res.json({
+				error,
+			});
+		}
 	}
 
 	async create(
