@@ -24,7 +24,7 @@ export const jsonData = [
 		creationDate: '2020-04-20 02:49:41',
 		closeDate: '2021-02-05 14:35:30',
 		userId: 44,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -66,7 +66,7 @@ export const jsonData = [
 		creationDate: '2020-03-07 15:45:57',
 		closeDate: '2020-11-07 01:25:27',
 		userId: 17,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'open',
 	},
 	{
@@ -94,7 +94,7 @@ export const jsonData = [
 		creationDate: '2020-08-19 08:54:54',
 		closeDate: '2021-02-10 00:07:54',
 		userId: 12,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'open',
 	},
 	{
@@ -108,7 +108,7 @@ export const jsonData = [
 		creationDate: '2020-05-17 03:05:52',
 		closeDate: '2020-09-24 07:11:15',
 		userId: 57,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'open',
 	},
 	{
@@ -164,7 +164,7 @@ export const jsonData = [
 		creationDate: '2020-03-03 00:42:53',
 		closeDate: '2020-10-23 21:59:10',
 		userId: 38,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -234,7 +234,7 @@ export const jsonData = [
 		creationDate: '2020-06-29 08:55:01',
 		closeDate: '2020-09-09 02:10:30',
 		userId: 94,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'finished',
 	},
 	{
@@ -262,7 +262,7 @@ export const jsonData = [
 		creationDate: '2020-03-07 04:11:25',
 		closeDate: '2021-03-17 05:49:19',
 		userId: 79,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -276,7 +276,7 @@ export const jsonData = [
 		creationDate: '2021-01-03 14:54:18',
 		closeDate: '2020-12-21 21:59:08',
 		userId: 22,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'finished',
 	},
 	{
@@ -458,7 +458,7 @@ export const jsonData = [
 		creationDate: '2020-07-13 03:50:42',
 		closeDate: '2020-11-10 16:13:32',
 		userId: 44,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'open',
 	},
 	{
@@ -500,7 +500,7 @@ export const jsonData = [
 		creationDate: '2020-11-15 06:25:31',
 		closeDate: '2020-11-09 18:26:24',
 		userId: 36,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -514,7 +514,7 @@ export const jsonData = [
 		creationDate: '2020-05-29 03:08:09',
 		closeDate: '2020-09-29 17:44:35',
 		userId: 74,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -556,7 +556,7 @@ export const jsonData = [
 		creationDate: '2021-01-16 22:06:00',
 		closeDate: '2020-12-14 06:33:03',
 		userId: 18,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'open',
 	},
 	{
@@ -598,7 +598,7 @@ export const jsonData = [
 		creationDate: '2020-09-04 15:04:50',
 		closeDate: '2020-10-22 00:18:23',
 		userId: 65,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -654,7 +654,7 @@ export const jsonData = [
 		creationDate: '2021-03-14 21:55:49',
 		closeDate: '2020-12-11 08:59:39',
 		userId: 21,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'open',
 	},
 	{
@@ -668,7 +668,7 @@ export const jsonData = [
 		creationDate: '2020-06-01 09:33:49',
 		closeDate: '2020-11-16 12:22:38',
 		userId: 100,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'open',
 	},
 	{
@@ -724,7 +724,7 @@ export const jsonData = [
 		creationDate: '2020-10-26 08:04:47',
 		closeDate: '2020-09-12 14:28:24',
 		userId: 21,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -780,7 +780,7 @@ export const jsonData = [
 		creationDate: '2021-03-12 12:18:15',
 		closeDate: '2021-03-14 06:14:44',
 		userId: 9,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'open',
 	},
 	{
@@ -850,7 +850,7 @@ export const jsonData = [
 		creationDate: '2021-03-07 02:21:16',
 		closeDate: '2021-02-20 01:08:04',
 		userId: 52,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -892,7 +892,7 @@ export const jsonData = [
 		creationDate: '2020-07-07 10:26:24',
 		closeDate: '2021-03-05 13:05:10',
 		userId: 73,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'open',
 	},
 	{
@@ -906,7 +906,7 @@ export const jsonData = [
 		creationDate: '2020-11-24 20:39:02',
 		closeDate: '2021-02-17 19:18:53',
 		userId: 48,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -920,7 +920,7 @@ export const jsonData = [
 		creationDate: '2020-12-30 08:51:19',
 		closeDate: '2021-02-10 19:07:47',
 		userId: 7,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'open',
 	},
 	{
@@ -934,7 +934,7 @@ export const jsonData = [
 		creationDate: '2020-09-24 10:06:27',
 		closeDate: '2020-11-22 08:44:03',
 		userId: 35,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -962,7 +962,7 @@ export const jsonData = [
 		creationDate: '2020-12-24 10:35:25',
 		closeDate: '2021-01-12 15:40:26',
 		userId: 8,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -1018,7 +1018,7 @@ export const jsonData = [
 		creationDate: '2020-04-23 22:30:38',
 		closeDate: '2020-12-15 05:13:02',
 		userId: 18,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -1032,7 +1032,7 @@ export const jsonData = [
 		creationDate: '2020-04-29 20:11:59',
 		closeDate: '2020-11-19 04:27:35',
 		userId: 96,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'open',
 	},
 	{
@@ -1074,7 +1074,7 @@ export const jsonData = [
 		creationDate: '2020-10-10 20:57:11',
 		closeDate: '2020-10-06 02:16:50',
 		userId: 71,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -1102,7 +1102,7 @@ export const jsonData = [
 		creationDate: '2021-01-26 07:32:36',
 		closeDate: '2020-11-06 03:26:54',
 		userId: 87,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -1116,7 +1116,7 @@ export const jsonData = [
 		creationDate: '2020-11-15 15:25:28',
 		closeDate: '2021-03-22 21:50:19',
 		userId: 83,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -1242,7 +1242,7 @@ export const jsonData = [
 		creationDate: '2020-08-14 00:50:07',
 		closeDate: '2021-02-21 05:07:54',
 		userId: 22,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'open',
 	},
 	{
@@ -1270,7 +1270,7 @@ export const jsonData = [
 		creationDate: '2020-06-30 14:41:47',
 		closeDate: '2020-09-09 05:34:53',
 		userId: 69,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'open',
 	},
 	{
@@ -1284,7 +1284,7 @@ export const jsonData = [
 		creationDate: '2021-01-18 17:16:48',
 		closeDate: '2021-01-09 20:19:18',
 		userId: 90,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'open',
 	},
 	{
@@ -1298,7 +1298,7 @@ export const jsonData = [
 		creationDate: '2020-11-13 05:55:30',
 		closeDate: '2020-10-23 01:08:24',
 		userId: 52,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -1340,7 +1340,7 @@ export const jsonData = [
 		creationDate: '2021-02-14 11:57:46',
 		closeDate: '2021-01-19 11:09:11',
 		userId: 38,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'wait',
 	},
 	{
@@ -1354,7 +1354,7 @@ export const jsonData = [
 		creationDate: '2021-03-05 19:14:32',
 		closeDate: '2020-11-03 03:22:07',
 		userId: 50,
-		category: 'Eletricity',
+		category: 'Electricity',
 		status: 'open',
 	},
 	{

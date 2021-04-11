@@ -8,7 +8,7 @@ import { voteData } from './voteData';
 import { Status } from '@utils/Status';
 
 export class ComplaintSeed {
-	seedDatabase() {
+	seedDatabase = (): { complaints: Complaint[]; votes: Votes[] } => {
 		const complaints: Complaint[] = [];
 		const votes: Votes[] = [];
 
@@ -35,5 +35,5 @@ export class ComplaintSeed {
 			complaints.push(complaint);
 		});
 		return { complaints, votes };
-	}
+	};
 }

@@ -1,11 +1,13 @@
 import ControllerComplaint from '@controllers/ControllerComplaint';
 import { Request, Response } from 'express';
-import { ComplaintRepository } from '@repositories/ComplaintRepository';
-import { Complaint } from '@entity/Complaint';
-import { VotesRepository } from '@repositories/VotesRepository';
 
 jest.mock('@repositories/ComplaintRepository');
 jest.mock('@repositories/VotesRepository');
+import { ComplaintRepository } from '@repositories/ComplaintRepository';
+jest.mock('@repositories/ComplaintRepository');
+import { Complaint } from '@entity/Complaint';
+import { VotesRepository } from '@repositories/VotesRepository';
+import { ComplaintWithVote } from '@utils/ComplaintWithVote';
 
 const mockResponse = () => {
 	const res: Response = {} as Response;
@@ -31,37 +33,54 @@ const complaintMock = {
 const getVote = [
 	{
 		complaint_id: 1,
-		complaint_name: 'Geno',
-		complaint_description: 'Thyroid vessel ligation',
-		complaint_latitude: 31.975314,
-		complaint_longitude: 35.196042,
-		complaint_userId: 1,
-		complaint_category: 'Hole',
-		complaint_creationDate: '2021-03-12T10:02:31.000Z',
-		complaint_closeDate: '2021-11-25T19:05:09.000Z',
+		complaint_name: 'Sub-Ex',
+		complaint_description:
+			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+		complaint_latitude: 36.275231,
+		complaint_longitude: 113.310158,
+		complaint_userId: 74,
+		complaint_category: 'Water',
+		complaint_creationDate: '2021-02-21T18:52:45.000Z',
+		complaint_closeDate: '2020-11-11T05:41:31.000Z',
+		complaint_picture: 'http://dummyimage.com/237x100.png/cc0000/ffffff',
 		complaint_status: 'open',
-		vote_id: 101,
-		vote_userId: 1,
-		vote_complaintId: 1,
-		vote_typeVote: 'complaintConfirmed',
+		vote_id: null,
+		vote_userId: null,
+		vote_complaintId: null,
+		vote_typeVote: null,
+	},
+] as ComplaintWithVote[];
+
+const waitVotes = [
+	{
+		id: 10,
+		name: 'Zamit',
+		description:
+			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+		latitude: 16.504382,
+		longitude: 104.0304535,
+		userId: 78,
+		category: 'Hole',
+		creationDate: '2020-08-27T05:02:38.000Z',
+		closeDate: '2020-10-08T14:23:52.000Z',
+		picture: 'http://dummyimage.com/216x100.png/dddddd/000000',
+		status: 'wait',
 	},
 	{
-		complaint_id: 2,
-		complaint_name: 'Doro',
-		complaint_description: 'Colostomy NOS',
-		complaint_latitude: -6.85247,
-		complaint_longitude: 111.5587544,
-		complaint_userId: 2,
-		complaint_category: 'Hole',
-		complaint_creationDate: '2020-04-20T09:29:31.000Z',
-		complaint_closeDate: '2021-10-01T09:17:05.000Z',
-		complaint_status: 'wait',
-		vote_id: 111,
-		vote_userId: 1,
-		vote_complaintId: 2,
-		vote_typeVote: 'complaintConfirmed',
+		id: 11,
+		name: 'Matsoft',
+		description:
+			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+		latitude: -8.4164207,
+		longitude: 115.3459831,
+		userId: 19,
+		category: 'Hole',
+		creationDate: '2020-04-01T08:01:32.000Z',
+		closeDate: '2020-12-25T09:44:53.000Z',
+		picture: 'http://dummyimage.com/224x100.png/ff4444/ffffff',
+		status: 'wait',
 	},
-];
+] as Complaint[];
 
 describe('complaints', () => {
 	test('should take complaints from complaints()', async () => {
@@ -102,6 +121,46 @@ describe('complaints', () => {
 		};
 		const mResp = mockResponse();
 		await controller.complaints(mReq, mResp);
+		expect(mResp.status).toHaveBeenCalledWith(400);
+	});
+});
+
+describe('Create complaints Tests', () => {
+	test('should return status code 201', async () => {
+		const controller = new ControllerComplaint();
+		const mReq = {} as Request;
+		mReq.body = {
+			name: 'some-name',
+			description: 'some-description',
+			latitude: 10,
+			longitude: -10,
+			userId: 0,
+			category: 'Hole',
+		};
+		const mResp = mockResponse();
+
+		jest.spyOn(
+			ComplaintRepository.prototype,
+			'createComplaint',
+		).mockImplementation();
+
+		await controller.create(mReq, mResp);
+		expect(mResp.sendStatus).toHaveBeenCalledWith(201);
+	});
+
+	test('should return status code 400', async () => {
+		const controller = new ControllerComplaint();
+		const mReq = {} as Request;
+		const mResp = mockResponse();
+
+		jest.spyOn(
+			ComplaintRepository.prototype,
+			'createComplaint',
+		).mockImplementation(() => {
+			throw new Error();
+		});
+
+		await controller.create(mReq, mResp);
 		expect(mResp.status).toHaveBeenCalledWith(400);
 	});
 });
@@ -322,5 +381,35 @@ describe('list upvotes tests', () => {
 
 		expect(mResp.status).toHaveBeenCalledWith(400);
 		expect(mResp.json).toHaveBeenCalledWith({ error: 'User not found' });
+	});
+});
+
+describe('Wait Complaints by Category', () => {
+	test('Should return waiting complaints', async () => {
+		const controller = new ControllerComplaint();
+		const mReq = {} as Request;
+		mReq.query = {
+			category: 'Hole',
+		};
+		const mResp = mockResponse();
+		jest.spyOn(
+			ComplaintRepository.prototype,
+			'getWaitComplaints',
+		).mockImplementationOnce(() => Promise.resolve(waitVotes));
+		await controller.waitComplaintsByCategory(mReq, mResp);
+		expect(mResp.status).toHaveBeenCalledWith(200);
+		expect(mResp.json).toHaveBeenCalledWith(waitVotes);
+	});
+
+	test('Should return error status', async () => {
+		const controller = new ControllerComplaint();
+		const mReq = {} as Request;
+		mReq.query = {};
+		const mResp = mockResponse();
+		await controller.waitComplaintsByCategory(mReq, mResp);
+		expect(mResp.status).toHaveBeenCalledWith(400);
+		expect(mResp.json).toHaveBeenCalledWith({
+			error: 'Category is missing',
+		});
 	});
 });

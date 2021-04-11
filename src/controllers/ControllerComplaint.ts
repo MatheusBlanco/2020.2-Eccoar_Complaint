@@ -6,6 +6,7 @@ import { VotesRepository } from '@repositories/VotesRepository';
 import ComplaintVoteConfirmed from '@utils/ComplaintVoteConfirmed';
 import { ComplaintVote } from '@utils/ComplaintVote';
 import ComplaintUpvote from '@utils/ComplaintUpvote';
+import { Category } from '@utils/Category';
 
 export default class ControllerComplaint {
 	complaintRepository: ComplaintRepository;
@@ -152,6 +153,23 @@ export default class ControllerComplaint {
 				take,
 			);
 			return res.status(200).json(userVotes);
+		} catch (error) {
+			return res.status(400).json({ error: error.message });
+		}
+	}
+
+	async waitComplaintsByCategory(
+		req: Request,
+		res: Response,
+	): Promise<Response> {
+		try {
+			if (req.query.category == null || req.query.category === '') {
+				throw new Error('Category is missing');
+			}
+			const response = await this.complaintRepository.getWaitComplaints(
+				String(req.query.category) as Category,
+			);
+			return res.status(200).json(response);
 		} catch (error) {
 			return res.status(400).json({ error: error.message });
 		}

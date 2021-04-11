@@ -1,6 +1,8 @@
 import { getRepository } from 'typeorm';
 import { Votes } from '@entity/Votes';
 import { Complaint } from '@entity/Complaint';
+import { Category } from '../utils/Category';
+import { ComplaintWithVote } from '../utils/ComplaintWithVote';
 
 export class ComplaintRepository {
 	getById(id: number): Promise<Complaint> {
@@ -22,7 +24,7 @@ export class ComplaintRepository {
 		skip: number,
 		take: number,
 		orderDate: string,
-	): Promise<any> {
+	): Promise<{ complaints: Complaint[]; count: number }> {
 		const repository = getRepository(Complaint);
 		const [result, count] = await repository.findAndCount({
 			skip: skip * take,
@@ -42,10 +44,9 @@ export class ComplaintRepository {
 		userId: number,
 		skip: number,
 		take: number,
-	): Promise<any> {
+	): Promise<ComplaintWithVote[]> {
 		const repository = getRepository(Complaint);
-
-		const getComplaintsVotes = await repository
+		const getComplaintsVotes: ComplaintWithVote[] = await repository
 			.createQueryBuilder('complaint')
 			.leftJoinAndSelect(
 				Votes,
@@ -55,12 +56,14 @@ export class ComplaintRepository {
 			)
 			.limit(take)
 			.offset(skip * take)
-			.getRawMany();
-
+			.getRawMany<ComplaintWithVote>();
 		return getComplaintsVotes;
 	}
 
-	async getComplaintById(userId: number, complaintId: number): Promise<any> {
+	async getComplaintById(
+		userId: number,
+		complaintId: number,
+	): Promise<ComplaintWithVote> {
 		const repository = getRepository(Complaint);
 
 		const getComplaintVote = await repository
@@ -72,8 +75,15 @@ export class ComplaintRepository {
 				{ userId },
 			)
 			.where('complaint.id = :complaintId', { complaintId })
-			.getRawOne();
+			.getRawOne<ComplaintWithVote>();
 
 		return getComplaintVote;
+	}
+
+	async getWaitComplaints(category: Category): Promise<Complaint[]> {
+		const repository = getRepository(Complaint);
+		return await repository.find({
+			where: { category: category, status: 'wait' },
+		});
 	}
 }
