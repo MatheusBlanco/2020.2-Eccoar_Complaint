@@ -3,6 +3,7 @@ import { Votes } from '@entity/Votes';
 import { Complaint } from '@entity/Complaint';
 import { Category } from '../utils/Category';
 import { ComplaintWithVote } from '../utils/ComplaintWithVote';
+import { Optional } from '../utils/Optional';
 
 export class ComplaintRepository {
 	getById(id: number): Promise<Complaint> {
@@ -10,7 +11,7 @@ export class ComplaintRepository {
 		return repository.findOne({ id });
 	}
 
-	createComplaint(complaint: Complaint): Promise<Complaint> {
+	createComplaint(complaint: Optional<Complaint, 'id'>): Promise<Complaint> {
 		const repository = getRepository(Complaint);
 		return repository.save(complaint);
 	}

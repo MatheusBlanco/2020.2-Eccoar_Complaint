@@ -9,9 +9,12 @@ routers.get('/api/ping', (req: Request, res: Response) => {
 	controller.pong(req, res);
 });
 
-routers.post("/api/complaint/create", (req: Request, res: Response, next: NextFunction) => {
-    controller.create(req, res, next);
-});
+routers.post(
+	'/api/complaint/create',
+	(req: Request, res: Response, next: NextFunction) => {
+		controller.create(req, res, next);
+	},
+);
 
 routers.get('/api/complaints', (req: Request, resp: Response) => {
 	controller.complaints(req, resp);

@@ -1,6 +1,6 @@
-import { VoteType } from "../utils/VoteType";
-import { getRepository } from "typeorm";
-import { Votes } from "../entity/Votes";
+import { VoteType } from '../utils/VoteType';
+import { getRepository } from 'typeorm';
+import { Votes } from '../entity/Votes';
 
 export class VotesRepository {
 	countVotesInComplaint(
