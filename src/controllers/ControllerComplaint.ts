@@ -51,7 +51,6 @@ export default class ControllerComplaint {
 			await this.complaintService.create(req.body);
 			return res.sendStatus(201);
 		} catch (error) {
-			console.log('Catch da create ');
 			next(error);
 		}
 	}
@@ -135,8 +134,6 @@ export default class ControllerComplaint {
 			return res.status(200).json(userVotes);
 		} catch (error) {
 			return res.status(400).json({ error: error.message });
-
-			console.log(this.getUserVote);
 		}
 	}
 }
