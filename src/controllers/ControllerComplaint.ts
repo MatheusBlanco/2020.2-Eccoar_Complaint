@@ -7,14 +7,17 @@ import ComplaintVoteConfirmed from '@utils/ComplaintVoteConfirmed';
 import { ComplaintVote } from '@utils/ComplaintVote';
 import ComplaintUpvote from '@utils/ComplaintUpvote';
 import { Category } from '@utils/Category';
+import { S3Service } from '@services/S3Service';
 
 export default class ControllerComplaint {
 	complaintRepository: ComplaintRepository;
 	voteRepository: VotesRepository;
+	s3Service: S3Service;
 
 	constructor() {
 		this.complaintRepository = new ComplaintRepository();
 		this.voteRepository = new VotesRepository();
+		this.s3Service = new S3Service();
 	}
 
 	private async checkComplaintExist(complaintId: number): Promise<Complaint> {
@@ -58,6 +61,7 @@ export default class ControllerComplaint {
 				'userId',
 				'category',
 			];
+
 			const missingFields = this.queryValidator(fields, req);
 
 			if (missingFields.length > 0) {
@@ -65,6 +69,11 @@ export default class ControllerComplaint {
 					.status(400)
 					.json({ msg: `Missing fields [${missingFields}]` });
 			}
+			if (req.body.picture) {
+				const url = await this.s3Service.uploadImage(req.body.picture);
+				req.body.picture = url.Location;
+			}
+
 			const complaint: Complaint = Object.assign(
 				new Complaint(),
 				req.body,
