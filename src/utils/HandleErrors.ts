@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { GeneralError } from '../utils/Error';
+import { GeneralError } from '@utils/Error';
 
 export default (
 	error: Error | GeneralError,
