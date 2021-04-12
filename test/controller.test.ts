@@ -1,5 +1,5 @@
 import ControllerComplaint from '@controllers/ControllerComplaint';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 jest.mock('@repositories/ComplaintRepository');
 jest.mock('@repositories/VotesRepository');
@@ -149,22 +149,28 @@ describe('Create complaints Tests', () => {
 		});
 		expect(mResp.sendStatus).toHaveBeenCalledWith(201);
 	});
+});
 
-	test('should return status code 400', async () => {
-		const controller = new ControllerComplaint();
-		const mReq = {} as Request;
-		const mResp = mockResponse();
-
-		jest.spyOn(
-			ComplaintRepository.prototype,
-			'createComplaint',
-		).mockImplementation(() => {
-			throw new Error();
+test('should return status code 400', async () => {
+	const controller = new ControllerComplaint();
+	const mReq = {} as Request;
+	const mResp = mockResponse();
+	const mNext = () => {
+		mResp.status(400).json({
+			status: 'error',
+			message: 'Teste',
 		});
+	};
 
-		await controller.create(mReq, mResp, mockResponse);
-		expect(mResp.status).toHaveBeenCalledWith(400);
+	jest.spyOn(
+		ComplaintRepository.prototype,
+		'createComplaint',
+	).mockImplementation(() => {
+		throw new Error();
 	});
+
+	await controller.create(mReq, mResp, mNext as NextFunction);
+	expect(mResp.status).toHaveBeenCalledWith(400);
 });
 
 describe('Create complaints Tests', () => {
