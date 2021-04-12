@@ -1,9 +1,9 @@
 import { getRepository } from 'typeorm';
 import { Votes } from '@entity/Votes';
 import { Complaint } from '@entity/Complaint';
-import { Category } from '../utils/Category';
-import { ComplaintWithVote } from '../utils/ComplaintWithVote';
-import { Optional } from '../utils/Optional';
+import { Category } from '@utils/Category';
+import { ComplaintWithVote } from '@utils/ComplaintWithVote';
+import { Optional } from '@utils/Optional';
 
 export class ComplaintRepository {
 	getById(id: number): Promise<Complaint> {

@@ -4,7 +4,7 @@ import routers from './routes';
 import { initializeDB } from './db';
 import * as cors from 'cors';
 import * as morgan from 'morgan';
-import HandleErrors from './utils/HandleErrors';
+import HandleErrors from '@utils/HandleErrors';
 
 const app = express();
 const PORT = process.env.APP_PORT || 5000;

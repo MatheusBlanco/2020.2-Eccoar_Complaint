@@ -1,8 +1,8 @@
 import { Complaint } from '@entity/Complaint';
-import { ComplaintRepository } from '../repositories/ComplaintRepository';
+import { ComplaintRepository } from '@repositories/ComplaintRepository';
 import { Optional } from '@utils/Optional';
 import { CheckFields } from '@utils/CheckFields';
-import { BadRequest, NotFound } from '@utils/Error';
+import { NotFound } from '@utils/Error';
 
 export class ComplaintService {
 	complaintRepository: ComplaintRepository;
