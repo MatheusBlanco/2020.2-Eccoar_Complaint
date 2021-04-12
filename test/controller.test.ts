@@ -144,7 +144,9 @@ describe('Create complaints Tests', () => {
 			'createComplaint',
 		).mockImplementation();
 
-		await controller.create(mReq, mResp);
+		await controller.create(mReq, mResp, () => {
+			('');
+		});
 		expect(mResp.sendStatus).toHaveBeenCalledWith(201);
 	});
 
@@ -160,7 +162,7 @@ describe('Create complaints Tests', () => {
 			throw new Error();
 		});
 
-		await controller.create(mReq, mResp);
+		await controller.create(mReq, mResp, mockResponse);
 		expect(mResp.status).toHaveBeenCalledWith(400);
 	});
 });
