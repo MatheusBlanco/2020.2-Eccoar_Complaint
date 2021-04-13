@@ -8,6 +8,7 @@ jest.mock('@repositories/ComplaintRepository');
 import { Complaint } from '@entity/Complaint';
 import { VotesRepository } from '@repositories/VotesRepository';
 import { ComplaintWithVote } from '@utils/ComplaintWithVote';
+import { Votes } from '@entity/Votes';
 
 const mockResponse = () => {
 	const res: Response = {} as Response;
@@ -51,6 +52,25 @@ const getVote = [
 	},
 ] as ComplaintWithVote[];
 
+const complaintWithVoteMock = {
+	complaint_id: 1,
+	complaint_name: 'Sub-Ex',
+	complaint_description:
+		'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+	complaint_latitude: 36.275231,
+	complaint_longitude: 113.310158,
+	complaint_userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
+	complaint_category: 'Water',
+	complaint_creationDate: '2021-02-21T18:52:45.000Z',
+	complaint_closeDate: '2020-11-11T05:41:31.000Z',
+	complaint_picture: 'http://dummyimage.com/237x100.png/cc0000/ffffff',
+	complaint_status: 'open',
+	vote_id: 405,
+	vote_userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
+	vote_complaintId: 7,
+	vote_typeVote: 'complaintUpvote',
+} as ComplaintWithVote;
+
 const waitVotes = [
 	{
 		id: 10,
@@ -81,6 +101,18 @@ const waitVotes = [
 		status: 'wait',
 	},
 ] as Complaint[];
+
+const confirmedVoteMock = {
+	complaintId: 32,
+	typeVote: 'complaintConfirmed',
+	userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
+} as Votes;
+
+const upVoteMock = {
+	complaintId: 32,
+	typeVote: 'complaintUpvote',
+	userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
+} as Votes;
 
 describe('complaints', () => {
 	test('should take complaints from complaints()', async () => {
@@ -247,31 +279,35 @@ describe('pong', () => {
 	});
 });
 
-describe('addVotes tests', () => {
-	test('Success addVote case', async () => {
+describe('Add and remove vote tests', () => {
+	test('Sucess removeVote case', async () => {
 		const controller = new ControllerComplaint();
 		const mReq = {} as Request;
-		mReq.body = {
-			complaintId: 32,
-			typeVote: 'complaintConfirmed',
+		mReq.query = {
+			complaintId: '1',
 			userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
+			typeVote: 'complaintUpvote',
 		};
 		const mResp = mockResponse();
-		jest.spyOn(VotesRepository.prototype, 'saveVote').mockImplementation();
-		jest.spyOn(
-			VotesRepository.prototype,
-			'countVotesInComplaint',
-		).mockImplementationOnce(() => Promise.resolve(10));
-		jest.spyOn(
-			ComplaintRepository.prototype,
-			'update',
-		).mockImplementation();
-		jest.spyOn(
-			ComplaintRepository.prototype,
-			'getById',
-		).mockImplementationOnce(() => Promise.resolve(complaintMock));
-		await controller.addVote(mReq, mResp);
-		expect(mResp.sendStatus).toHaveBeenCalledWith(200);
+
+		await controller.removeVote(mReq, mResp);
+		expect(mResp.json).toHaveBeenCalledWith({ msg: 'OK' });
+		expect(mResp.status).toHaveBeenCalledWith(200);
+	});
+
+	test('Wrong removeVote case: complaintId is missing', async () => {
+		const controller = new ControllerComplaint();
+		const mReq = {} as Request;
+		mReq.query = {
+			userId: '99',
+			typeVote: 'complaintUpvote',
+		};
+		const mResp = mockResponse();
+		await controller.removeVote(mReq, mResp);
+		expect(mResp.json).toHaveBeenCalledWith({
+			msg: `Missing fields [complaintId]`,
+		});
+		expect(mResp.status).toHaveBeenCalledWith(400);
 	});
 
 	test('Wrong addVote case: missing field', async () => {
@@ -332,7 +368,7 @@ describe('addVotes tests', () => {
 			'getById',
 		).mockImplementationOnce(() => Promise.resolve(complaintMock));
 		await controller.addVote(mReq, mResp);
-		expect(mResp.sendStatus).toHaveBeenCalledWith(200);
+		expect(mResp.sendStatus).toBeCalledWith(200);
 	});
 
 	test('Wrong addUpVote case: missing field', async () => {

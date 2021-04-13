@@ -37,4 +37,8 @@ routers.delete('/api/complaints', (req: Request, res: Response) => {
 	controller.deleteComplaintController(req, res);
 });
 
+routers.delete('/api/vote', (req: Request, res: Response) => {
+	controller.removeVote(req, res);
+});
+
 export default routers;

@@ -28,10 +28,10 @@ export default class ControllerComplaint {
 		return complaint;
 	}
 
-	private queryValidator(fields: string[], req: Request) {
+	private queryValidator(fields: string[], object: Record<string, unknown>) {
 		const missingFields: string[] = [];
 		fields.forEach((field) => {
-			if (!(field in req.body)) missingFields.push(field);
+			if (!(field in object)) missingFields.push(field);
 		});
 
 		return missingFields;
@@ -61,8 +61,7 @@ export default class ControllerComplaint {
 				'userId',
 				'category',
 			];
-
-			const missingFields = this.queryValidator(fields, req);
+			const missingFields = this.queryValidator(fields, req.body);
 
 			if (missingFields.length > 0) {
 				return res
@@ -139,9 +138,28 @@ export default class ControllerComplaint {
 		}
 	}
 
+	async removeVote(req: Request, res: Response): Promise<Response> {
+		try {
+			const fields = ['userId', 'complaintId', 'typeVote'];
+			const missingFields = this.queryValidator(fields, req.query);
+			if (missingFields.length > 0) {
+				return res
+					.status(400)
+					.json({ msg: `Missing fields [${missingFields}]` });
+			}
+			const userId = Number(req.query.userId);
+			const complaintId = Number(req.query.complaintId);
+			const typeVote = String(req.query.typeVote);
+			await this.voteRepository.removeVote(userId, complaintId, typeVote);
+			return res.status(200).json({ msg: 'OK' });
+		} catch (error) {
+			return res.status(400).json({ msg: error.message });
+		}
+	}
+
 	async addVote(req: Request, res: Response): Promise<Response> {
 		const fields = ['userId', 'complaintId', 'typeVote'];
-		const missingFields = this.queryValidator(fields, req);
+		const missingFields = this.queryValidator(fields, req.body);
 		if (missingFields.length > 0) {
 			return res
 				.status(400)
@@ -172,7 +190,10 @@ export default class ControllerComplaint {
 	}
 
 	async getUserVote(req: Request, res: Response): Promise<Response> {
-		const userId = req.query.userId;
+		const userId =
+			req.query.userId == null || req.query.userId == undefined
+				? null
+				: Number(req.query.userId);
 		const skip = 0;
 		const take = 0;
 		try {

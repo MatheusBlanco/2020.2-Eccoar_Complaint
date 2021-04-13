@@ -17,7 +17,7 @@ const complaintMock = {
 } as Complaint;
 
 const repositoryMock = {
-	findOne: jest.fn(async () =>
+	findOne: jest.fn(() =>
 		Promise.resolve({
 			name: 'mockName',
 			description: 'mockDescription',
@@ -32,7 +32,7 @@ const repositoryMock = {
 
 	save: jest.fn(async () => Promise.resolve(complaintMock)),
 
-	find: jest.fn(async () => {
+	find: jest.fn(() => {
 		return [
 			{
 				name: 'Stronghold',
