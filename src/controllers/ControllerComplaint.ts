@@ -89,7 +89,7 @@ export default class ControllerComplaint {
 		try {
 			const complaint = await this.complaintRepository.getById(Number(req.query.id));
 			if (Number(complaint.userId) == Number(req.query.userId)) {
-				await this.complaintRepository.deleteComplaint(complaint);
+				await this.complaintRepository.deleteComplaint(Number(req.query.id));
 				return res.status(200).json({ msg: 'OK' });
 			}
 			else {
