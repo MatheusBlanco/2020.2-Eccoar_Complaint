@@ -33,7 +33,7 @@ routers.get('/api/complaints/wait', (req: Request, res: Response) => {
 	controller.waitComplaintsByCategory(req, res);
 });
 
-routers.get('/api/complaints/delete', (req: Request, res: Response) => {
+routers.delete('/api/complaints/delete', (req: Request, res: Response) => {
 	controller.delete(req, res);
 })
 
