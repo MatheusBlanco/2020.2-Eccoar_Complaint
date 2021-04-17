@@ -85,18 +85,25 @@ export default class ControllerComplaint {
 		}
 	}
 
-	async delete(req: Request, res: Response): Promise<Response> {
+	async deleteComplaintController(
+		req: Request,
+		res: Response,
+	): Promise<Response> {
 		try {
-			const complaint = await this.complaintRepository.getById(Number(req.query.id));
+			const complaint = await this.complaintRepository.getById(
+				Number(req.query.id),
+			);
 			if (Number(complaint.userId) == Number(req.query.userId)) {
-				await this.complaintRepository.deleteComplaint(Number(req.query.id));
+				await this.complaintRepository.deleteComplaint(
+					Number(req.query.id),
+				);
 				return res.status(200).json({ msg: 'OK' });
+			} else {
+				res.status(403).json({
+					msg: 'User has not permission to delete this complaint!',
+				});
 			}
-			else {
-				res.status(403).json({ msg: 'User has not permission to delete this complaint!' });
-			}
-		}
-		catch (error) {
+		} catch (error) {
 			return res.status(400).json({ msg: error });
 		}
 	}
