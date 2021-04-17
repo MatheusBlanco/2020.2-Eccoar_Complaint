@@ -144,7 +144,7 @@ describe('Delete complaints tests', () => {
 			'deleteComplaint',
 		).mockImplementation();
 
-		await controller.delete(mReq, mResp);
+		await controller.deleteComplaintController(mReq, mResp);
 		expect(mResp.json).toHaveBeenCalledWith({ msg: 'OK' });
 		expect(mResp.status).toHaveBeenCalledWith(200);
 	});
@@ -167,7 +167,7 @@ describe('Delete complaints tests', () => {
 			'deleteComplaint',
 		).mockImplementation();
 
-		await controller.delete(mReq, mResp);
+		await controller.deleteComplaintController(mReq, mResp);
 		expect(mResp.json).toHaveBeenCalledWith({
 			msg: 'User has not permission to delete this complaint!',
 		});
@@ -192,7 +192,7 @@ describe('Delete complaints tests', () => {
 			'deleteComplaint',
 		).mockImplementation();
 
-		await controller.delete(mReq, mResp);
+		await controller.deleteComplaintController(mReq, mResp);
 		expect(mResp.status).toHaveBeenCalledWith(400);
 	});
 });
