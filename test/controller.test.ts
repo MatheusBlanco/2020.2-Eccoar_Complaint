@@ -192,25 +192,33 @@ describe('Create complaints Tests', () => {
 			'createComplaint',
 		).mockImplementation();
 
-		await controller.create(mReq, mResp);
+		await controller.create(mReq, mResp, () => {
+			('');
+		});
 		expect(mResp.sendStatus).toHaveBeenCalledWith(201);
 	});
+});
 
-	test('should return status code 400', async () => {
-		const controller = new ControllerComplaint();
-		const mReq = {} as Request;
-		const mResp = mockResponse();
-
-		jest.spyOn(
-			ComplaintRepository.prototype,
-			'createComplaint',
-		).mockImplementation(() => {
-			throw new Error();
+test('should return status code 400', async () => {
+	const controller = new ControllerComplaint();
+	const mReq = {} as Request;
+	const mResp = mockResponse();
+	const mNext = () => {
+		mResp.status(400).json({
+			status: 'error',
+			message: 'Teste',
 		});
+	};
 
-		await controller.create(mReq, mResp);
-		expect(mResp.status).toHaveBeenCalledWith(400);
+	jest.spyOn(
+		ComplaintRepository.prototype,
+		'createComplaint',
+	).mockImplementation(() => {
+		throw new Error();
 	});
+
+	await controller.create(mReq, mResp, mNext as NextFunction);
+	expect(mResp.status).toHaveBeenCalledWith(400);
 });
 
 describe('pong', () => {
