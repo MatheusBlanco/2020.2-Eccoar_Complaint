@@ -8,6 +8,7 @@ jest.mock('@repositories/ComplaintRepository');
 import { Complaint } from '@entity/Complaint';
 import { VotesRepository } from '@repositories/VotesRepository';
 import { ComplaintWithVote } from '@utils/ComplaintWithVote';
+import { ComplaintWithVoteAndDistance } from '@utils/ComplaintWithVoteAndDIstance';
 
 const mockResponse = () => {
 	const res: Response = {} as Response;
@@ -50,6 +51,28 @@ const getVote = [
 		vote_typeVote: null,
 	},
 ] as ComplaintWithVote[];
+
+const getVoteWithDistance = [
+	{
+		complaint_id: 1,
+		complaint_name: 'Sub-Ex',
+		complaint_description:
+			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+		complaint_latitude: 36.275231,
+		complaint_longitude: 113.310158,
+		complaint_userId: 'J5XePUMKi9XJdrs1L4zbYgB8haUY',
+		complaint_category: 'Water',
+		complaint_creationDate: '2021-02-21T18:52:45.000Z',
+		complaint_closeDate: '2020-11-11T05:41:31.000Z',
+		complaint_picture: 'http://dummyimage.com/237x100.png/cc0000/ffffff',
+		complaint_status: 'open',
+		vote_id: null,
+		vote_userId: null,
+		vote_complaintId: null,
+		vote_typeVote: null,
+		complaint_distance: 0,
+	},
+] as ComplaintWithVoteAndDistance[];
 
 const waitVotes = [
 	{
@@ -192,6 +215,17 @@ describe('Delete complaints tests', () => {
 		).mockImplementation();
 
 		await controller.deleteComplaintController(mReq, mResp);
+		expect(mResp.status).toHaveBeenCalledWith(400);
+	});
+
+	test('return missing fields', async () => {
+		const controller = new ControllerComplaint();
+		const mReq = {} as Request;
+		const mResp = mockResponse();
+
+		mReq.body = {};
+
+		await controller.create(mReq, mResp);
 		expect(mResp.status).toHaveBeenCalledWith(400);
 	});
 });
@@ -385,6 +419,48 @@ describe('getUserVotes test', () => {
 		await controller.getUserVote(mReq, mResp);
 		expect(mResp.status).toHaveBeenCalledWith(400);
 		expect(mResp.json).toHaveBeenCalledWith({ error: 'User not found' });
+	});
+
+	test('should get nearby votes', async () => {
+		const controller = new ControllerComplaint();
+		const mReq = {} as Request;
+		mReq.query = {
+			userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
+			take: '0',
+			skip: '0',
+			latitude: '-7',
+			longitude: '24',
+		};
+		const mResp = mockResponse();
+		jest.spyOn(
+			ComplaintRepository.prototype,
+			'getNearbyComplaints',
+		).mockImplementationOnce(() => Promise.resolve(getVoteWithDistance));
+
+		await controller.getUserVote(mReq, mResp);
+		expect(mResp.status).toHaveBeenCalledWith(200);
+		expect(mResp.json).toHaveBeenCalledWith(getVoteWithDistance);
+	});
+
+	test('should get votes without latitude', async () => {
+		const controller = new ControllerComplaint();
+		const mReq = {} as Request;
+		mReq.query = {
+			userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
+			take: '0',
+			skip: '0',
+			latitude: null,
+			longitude: '24',
+		};
+		const mResp = mockResponse();
+
+		jest.spyOn(
+			ComplaintRepository.prototype,
+			'getComplaintsWithVotes',
+		).mockImplementationOnce(() => Promise.resolve(getVote));
+		await controller.getUserVote(mReq, mResp);
+		expect(mResp.status).toHaveBeenCalledWith(200);
+		expect(mResp.json).toHaveBeenCalledWith(getVote);
 	});
 });
 
