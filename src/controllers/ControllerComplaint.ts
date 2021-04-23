@@ -109,12 +109,24 @@ export default class ControllerComplaint {
 
 	async complaints(req: Request, resp: Response): Promise<void> {
 		try {
-			const response = await this.complaintRepository.getAllComplaints(
-				Number(req.query.skip),
-				Number(req.query.take),
-				String(req.query.orderDate),
-			);
-			resp.status(200).json(response);
+			if (req.query.longitude != null && req.query.latitude != null) {
+				const maxDistance = 2;
+				const response = await this.complaintRepository.getNearbyComplaints(
+					Number(req.query.latitude),
+					Number(req.query.longitude),
+					maxDistance / 1.60934,
+					Number(req.query.skip),
+					Number(req.query.take),
+				);
+				resp.status(200).json(response);
+			} else {
+				const response = await this.complaintRepository.getAllComplaints(
+					Number(req.query.skip),
+					Number(req.query.take),
+					String(req.query.orderDate),
+				);
+				resp.status(200).json(response);
+			}
 		} catch (error) {
 			resp.status(400);
 			resp.json({

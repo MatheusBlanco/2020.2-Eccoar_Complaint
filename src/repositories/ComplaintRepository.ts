@@ -3,6 +3,8 @@ import { Votes } from '@entity/Votes';
 import { Complaint } from '@entity/Complaint';
 import { Category } from '../utils/Category';
 import { ComplaintWithVote } from '../utils/ComplaintWithVote';
+import { response } from 'express';
+import { ComplaintWithDistance } from '@utils/ComplaintWithDistance';
 
 export class ComplaintRepository {
 	getById(id: number): Promise<Complaint> {
@@ -23,6 +25,27 @@ export class ComplaintRepository {
 	async update(complaint: Complaint): Promise<void> {
 		const repository = getRepository(Complaint);
 		repository.update(complaint.id, complaint);
+	}
+
+	async getNearbyComplaints(
+		latitude: number,
+		longitude: number,
+		maxDistance: number,
+		skip: number,
+		take: number,
+	): Promise<ComplaintWithDistance[]> {
+		const repository = getRepository(Complaint);
+		const getNearbyComplaints: ComplaintWithDistance[] = await repository
+			.createQueryBuilder('complaint')
+			.select(
+				`latitude, longitude, SQRT(POW(69.1 * (latitude - ${latitude}), 2) +POW(69.1 * (${longitude} - longitude) * COS(latitude / 57.3), 2)) AS distance`,
+			)
+			.having('distance < :maxDistance', { maxDistance })
+			.orderBy('distance')
+			.limit(take)
+			.offset(skip * take)
+			.getRawMany<ComplaintWithDistance>();
+		return getNearbyComplaints;
 	}
 
 	async getAllComplaints(
