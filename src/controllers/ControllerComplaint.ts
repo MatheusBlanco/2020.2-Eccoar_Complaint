@@ -212,12 +212,24 @@ export default class ControllerComplaint {
 			if (userId == null || userId == undefined) {
 				throw new Error('User not found');
 			}
-			const userVotes = await this.complaintRepository.getComplaintsWithVotes(
-				String(userId),
-				skip,
-				take,
-			);
-			return res.status(200).json(userVotes);
+			if (req.query.longitude != null && req.query.latitude != null) {
+				const maxDistance = 2;
+				const userVotes = await this.complaintRepository.getNearbyComplaints(
+					Number(req.query.latitude),
+					Number(req.query.longitude),
+					maxDistance / 1.60934,
+					skip,
+					take,
+				);
+				return res.status(200).json(userVotes);
+			} else {
+				const userVotes = await this.complaintRepository.getComplaintsWithVotes(
+					String(userId),
+					skip,
+					take,
+				);
+				return res.status(200).json(userVotes);
+			}
 		} catch (error) {
 			return res.status(400).json({ error: error.message });
 		}
