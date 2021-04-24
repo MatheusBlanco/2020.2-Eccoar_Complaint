@@ -4,6 +4,7 @@
 	"description": "Complaint Service.",
 	"devDependencies": {
 		"@types/cors": "^2.8.10",
+		"@types/dotenv": "^8.2.0",
 		"@types/express": "^4.17.11",
 		"@types/jest": "^26.0.20",
 		"@types/morgan": "^1.9.2",
@@ -14,6 +15,7 @@
 		"eslint-config-prettier": "^8.1.0",
 		"husky": "^6.0.0",
 		"jest": "^26.6.3",
+		"jest-mock-extended": "^1.0.13",
 		"jest-sonar-reporter": "^2.0.0",
 		"lint-staged": "^10.5.4",
 		"npm-run-all": "^4.1.5",
@@ -21,12 +23,14 @@
 		"ts-jest": "^26.5.3",
 		"ts-node-dev": "^1.1.6",
 		"tsconfig-paths": "^3.9.0",
-		"typescript": "^4.2.3",
-		"jest-mock-extended": "^1.0.13"
+		"typescript": "^4.2.3"
 	},
 	"dependencies": {
+		"@sentry/node": "^6.2.5",
+		"@sentry/tracing": "^6.2.5",
 		"class-validator": "^0.13.1",
 		"cors": "^2.8.5",
+		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"morgan": "^1.10.0",
 		"mysql": "^2.14.1",
