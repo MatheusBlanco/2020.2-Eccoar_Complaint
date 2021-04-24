@@ -108,25 +108,15 @@ export default class ControllerComplaint {
 	}
 
 	async complaints(req: Request, resp: Response): Promise<void> {
+		const skip = Number(req.query.skip);
+		const take = Number(req.query.take);
 		try {
-			if (req.query.longitude != null && req.query.latitude != null) {
-				const maxDistance = 2;
-				const response = await this.complaintRepository.getNearbyComplaints(
-					Number(req.query.latitude),
-					Number(req.query.longitude),
-					maxDistance / 1.60934,
-					Number(req.query.skip),
-					Number(req.query.take),
-				);
-				resp.status(200).json(response);
-			} else {
-				const response = await this.complaintRepository.getAllComplaints(
-					Number(req.query.skip),
-					Number(req.query.take),
-					String(req.query.orderDate),
-				);
-				resp.status(200).json(response);
-			}
+			const response = await this.complaintRepository.getAllComplaints(
+				skip,
+				take,
+				String(req.query.orderDate),
+			);
+			resp.status(200).json(response);
 		} catch (error) {
 			resp.status(400);
 			resp.json({
@@ -206,27 +196,40 @@ export default class ControllerComplaint {
 			req.query.userId == null || req.query.userId == undefined
 				? null
 				: String(req.query.userId);
-		const skip = 0;
-		const take = 0;
+		const skip =
+			req.query.skip == null || req.query.skip == undefined
+				? 0
+				: req.query.skip;
+		const take =
+			req.query.take == null || req.query.take == undefined
+				? 50
+				: req.query.take;
+		const latitude = req.query.latitude;
+		const longitude = req.query.longitude;
+
 		try {
 			if (userId == null || userId == undefined) {
 				throw new Error('User not found');
 			}
-			if (req.query.longitude != null && req.query.latitude != null) {
-				const maxDistance = 2;
+			if (
+				(longitude != null || longitude != undefined) &&
+				(latitude != null || latitude != undefined)
+			) {
+				const maxDistance = 2; // in kilometres
 				const userVotes = await this.complaintRepository.getNearbyComplaints(
-					Number(req.query.latitude),
-					Number(req.query.longitude),
-					maxDistance / 1.60934,
-					skip,
-					take,
+					Number(userId),
+					Number(latitude),
+					Number(longitude),
+					maxDistance / 1.60934, // converting to miles
+					Number(skip),
+					Number(take),
 				);
 				return res.status(200).json(userVotes);
 			} else {
 				const userVotes = await this.complaintRepository.getComplaintsWithVotes(
 					String(userId),
-					skip,
-					take,
+					Number(skip),
+					Number(take),
 				);
 				return res.status(200).json(userVotes);
 			}

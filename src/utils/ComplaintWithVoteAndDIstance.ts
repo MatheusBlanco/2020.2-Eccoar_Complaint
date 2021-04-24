@@ -1,6 +1,6 @@
 import { Category } from './Category';
 
-export interface ComplaintWithDistance {
+export interface ComplaintWithVoteAndDistance {
 	complaint_id: number;
 	complaint_name: string;
 	complaint_description: string;
@@ -12,5 +12,9 @@ export interface ComplaintWithDistance {
 	complaint_closeDate: string;
 	complaint_picture: string;
 	complaint_status: string;
-	distance: number;
+	vote_id: number;
+	vote_userId: number;
+	vote_complaintId: number;
+	vote_typeVote: string;
+	complaint_distance: number;
 }

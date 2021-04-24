@@ -3,8 +3,7 @@ import { Votes } from '@entity/Votes';
 import { Complaint } from '@entity/Complaint';
 import { Category } from '../utils/Category';
 import { ComplaintWithVote } from '../utils/ComplaintWithVote';
-import { response } from 'express';
-import { ComplaintWithDistance } from '@utils/ComplaintWithDistance';
+import { ComplaintWithVoteAndDistance } from '@utils/ComplaintWithVoteAndDIstance';
 
 export class ComplaintRepository {
 	getById(id: number): Promise<Complaint> {
@@ -28,23 +27,31 @@ export class ComplaintRepository {
 	}
 
 	async getNearbyComplaints(
+		userId: number,
 		latitude: number,
 		longitude: number,
 		maxDistance: number,
-		skip: number,
-		take: number,
-	): Promise<ComplaintWithDistance[]> {
+		skip?: number,
+		take?: number,
+	): Promise<ComplaintWithVoteAndDistance[]> {
 		const repository = getRepository(Complaint);
-		const getNearbyComplaints: ComplaintWithDistance[] = await repository
+		const getNearbyComplaints: ComplaintWithVoteAndDistance[] = await repository
 			.createQueryBuilder('complaint')
-			.select(
-				`latitude, longitude, SQRT(POW(69.1 * (latitude - ${latitude}), 2) +POW(69.1 * (${longitude} - longitude) * COS(latitude / 57.3), 2)) AS distance`,
+			.leftJoinAndSelect(
+				Votes,
+				'vote',
+				'vote.complaintId = complaint.id and vote.userId = :userId',
+				{ userId },
 			)
-			.having('distance < :maxDistance', { maxDistance })
-			.orderBy('distance')
-			.limit(take)
-			.offset(skip * take)
-			.getRawMany<ComplaintWithDistance>();
+			.addSelect(
+				`SQRT(POW(69.1 * (latitude - ${latitude}), 2) +POW(69.1 * (${longitude} - longitude) * COS(latitude / 57.3), 2))`,
+				'complaint_distance',
+			)
+			.having('complaint_distance < :maxDistance', { maxDistance })
+			.orderBy('complaint_distance')
+			.take(take)
+			.skip(skip * take)
+			.getRawMany<ComplaintWithVoteAndDistance>();
 		return getNearbyComplaints;
 	}
 
@@ -82,8 +89,8 @@ export class ComplaintRepository {
 				'vote.complaintId = complaint.id and vote.userId = :userId',
 				{ userId },
 			)
-			.limit(take)
-			.offset(skip * take)
+			.take(take)
+			.skip(skip * take)
 			.getRawMany<ComplaintWithVote>();
 		return getComplaintsVotes;
 	}
