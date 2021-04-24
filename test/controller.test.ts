@@ -195,6 +195,17 @@ describe('Delete complaints tests', () => {
 		await controller.deleteComplaintController(mReq, mResp);
 		expect(mResp.status).toHaveBeenCalledWith(400);
 	});
+
+	test('return missing fields', async () => {
+		const controller = new ControllerComplaint();
+		const mReq = {} as Request;
+		const mResp = mockResponse();
+
+		mReq.body = {};
+
+		await controller.create(mReq, mResp);
+		expect(mResp.status).toHaveBeenCalledWith(400);
+	});
 });
 
 describe('Create complaints Tests', () => {
