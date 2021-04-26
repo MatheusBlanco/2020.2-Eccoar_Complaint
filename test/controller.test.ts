@@ -145,8 +145,7 @@ describe('Delete complaints tests', () => {
 		).mockImplementation();
 
 		await controller.deleteComplaintController(mReq, mResp);
-		expect(mResp.json).toHaveBeenCalledWith({ msg: 'OK' });
-		expect(mResp.status).toHaveBeenCalledWith(200);
+		expect(mResp.sendStatus).toHaveBeenCalledWith(200);
 	});
 
 	test('should not let different user delete a complaint that its not his own', async () => {

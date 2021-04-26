@@ -89,15 +89,14 @@ export default class ControllerComplaint {
 		req: Request,
 		res: Response,
 	): Promise<Response> {
+		const id = req.query.id;
 		try {
 			const complaint = await this.complaintRepository.getById(
-				Number(req.query.id),
+				Number(id),
 			);
 			if (Number(complaint.userId) == Number(req.query.userId)) {
-				await this.complaintRepository.deleteComplaint(
-					Number(req.query.id),
-				);
-				return res.status(200).json({ msg: 'OK' });
+				await this.complaintRepository.deleteComplaint(Number(id));
+				return res.sendStatus(200);
 			} else {
 				res.status(403).json({
 					msg: 'User has not permission to delete this complaint!',
