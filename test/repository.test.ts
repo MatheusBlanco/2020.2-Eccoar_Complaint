@@ -99,6 +99,14 @@ describe('Get complaint by Id', () => {
 	});
 });
 
+describe('Delete complaint', () => {
+	test('Should delete complaint', async () => {
+		const repository = new ComplaintRepository();
+		const result = await repository.getById(1);
+		expect(result).toBeTruthy();
+	});
+});
+
 describe('Get wait complaints', () => {
 	test('Should return complaints of type hole and with status waiting', async () => {
 		const repository = new ComplaintRepository();
