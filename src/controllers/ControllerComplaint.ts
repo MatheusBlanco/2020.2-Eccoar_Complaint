@@ -89,13 +89,14 @@ export default class ControllerComplaint {
 		req: Request,
 		res: Response,
 	): Promise<Response> {
-		const id = req.query.id;
+		const id = Number(req.query.id);
+		const userId = Number(req.query.userId);
 		try {
 			const complaint = await this.complaintRepository.getById(
 				Number(id),
 			);
-			if (Number(complaint.userId) == Number(req.query.userId)) {
-				await this.complaintRepository.deleteComplaint(Number(id));
+			if (Number(complaint.userId) == userId) {
+				await this.complaintRepository.deleteComplaint(id);
 				return res.sendStatus(200);
 			} else {
 				res.status(403).json({
