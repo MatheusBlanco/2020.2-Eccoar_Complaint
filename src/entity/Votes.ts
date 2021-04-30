@@ -1,5 +1,12 @@
 import { VoteType } from '@utils/VoteType';
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import {
+	Column,
+	Entity,
+	ManyToOne,
+	PrimaryGeneratedColumn,
+	Unique,
+} from 'typeorm';
+import { Complaint } from './Complaint';
 
 @Entity('tb_votes')
 @Unique('vote', ['userId', 'complaintId', 'typeVote'])
@@ -15,4 +22,10 @@ export class Votes {
 
 	@Column({ type: 'enum', enum: VoteType, nullable: false })
 	typeVote: VoteType;
+
+	@ManyToOne(() => Complaint, (complaint) => complaint.votes, {
+		nullable: false,
+		onDelete: 'CASCADE',
+	})
+	complaint: Complaint;
 }

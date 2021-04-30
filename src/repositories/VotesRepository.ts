@@ -1,14 +1,15 @@
 import { getRepository } from 'typeorm';
 import { VoteType } from '@utils/VoteType';
 import { Votes } from '@entity/Votes';
+import { Complaint } from '@entity/Complaint';
 
 export class VotesRepository {
 	countVotesInComplaint(
-		complaintId: number,
+		complaint: Complaint,
 		typeVote: VoteType,
 	): Promise<number> {
 		const repository = getRepository(Votes);
-		return repository.count({ complaintId, typeVote });
+		return repository.count({ complaint, typeVote });
 	}
 
 	async saveVote(
