@@ -85,6 +85,9 @@ jest.mock('typeorm', () => {
 		CreateDateColumn: () => {
 			null;
 		},
+		JoinColumn: () => {
+			null;
+		},
 	};
 });
 

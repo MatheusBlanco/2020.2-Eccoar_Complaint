@@ -2,6 +2,7 @@ import { VoteType } from '@utils/VoteType';
 import {
 	Column,
 	Entity,
+	JoinColumn,
 	ManyToOne,
 	PrimaryGeneratedColumn,
 	Unique,
@@ -27,5 +28,6 @@ export class Votes {
 		nullable: false,
 		onDelete: 'CASCADE',
 	})
+	@JoinColumn({ name: 'complaintId' })
 	complaint: Complaint;
 }
