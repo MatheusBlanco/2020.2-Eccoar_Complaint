@@ -70,6 +70,12 @@ jest.mock('typeorm', () => {
 		Column: () => {
 			null;
 		},
+		OneToMany: () => {
+			null;
+		},
+		ManyToOne: () => {
+			null;
+		},
 		Entity: () => {
 			null;
 		},
