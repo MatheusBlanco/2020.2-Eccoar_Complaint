@@ -90,12 +90,12 @@ export default class ControllerComplaint {
 		res: Response,
 	): Promise<Response> {
 		const id = Number(req.query.id);
-		const userId = Number(req.query.userId);
+		const userId = req.query.userId;
 		try {
 			const complaint = await this.complaintRepository.getById(
 				Number(id),
 			);
-			if (Number(complaint.userId) == userId) {
+			if (complaint.userId == userId) {
 				await this.complaintRepository.deleteComplaint(id);
 				return res.sendStatus(200);
 			} else {
@@ -127,7 +127,7 @@ export default class ControllerComplaint {
 	async complaintWithVote(req: Request, resp: Response): Promise<void> {
 		try {
 			const response = await this.complaintRepository.getComplaintById(
-				Number(req.query.userId),
+				String(req.query.userId),
 				Number(req.query.complaintId),
 			);
 			resp.status(200).json(response);
@@ -180,7 +180,7 @@ export default class ControllerComplaint {
 				throw new Error('User not found');
 			}
 			const userVotes = await this.complaintRepository.getComplaintsWithVotes(
-				Number(userId),
+				String(userId),
 				skip,
 				take,
 			);

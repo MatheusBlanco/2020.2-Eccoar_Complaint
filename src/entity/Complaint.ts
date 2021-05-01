@@ -30,7 +30,7 @@ export class Complaint {
 	longitude: number;
 
 	@Column({ nullable: false })
-	userId: number;
+	userId: string;
 
 	@Column({ type: 'enum', enum: Category, nullable: false })
 	category: Category;
