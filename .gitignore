@@ -9,3 +9,4 @@ test-report.json
 test-report.xml
 coverage/
 *.tgz
+*.env

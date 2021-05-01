@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"description": "Complaint Service.",
 	"devDependencies": {
+		"@types/aws-sdk": "^2.7.0",
 		"@types/cors": "^2.8.10",
 		"@types/dotenv": "^8.2.0",
 		"@types/express": "^4.17.11",
@@ -28,10 +29,13 @@
 	"dependencies": {
 		"@sentry/node": "^6.2.5",
 		"@sentry/tracing": "^6.2.5",
+		"aws-sdk": "^2.884.0",
 		"class-validator": "^0.13.1",
 		"cors": "^2.8.5",
+		"crypto": "^1.0.1",
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
+		"fs": "0.0.1-security",
 		"morgan": "^1.10.0",
 		"mysql": "^2.14.1",
 		"reflect-metadata": "^0.1.10",

@@ -4,6 +4,20 @@ import { Complaint } from '../src/entity/Complaint';
 import { ComplaintRepository } from '../src/repositories/ComplaintRepository';
 import { Category } from '../src/utils/Category';
 
+const complaintMock = {
+	id: 11,
+	name: 'Geri',
+	description: 'Disarticulation of elbow',
+	latitude: -7,
+	longitude: 24,
+	userId: 11,
+	category: 'Hole',
+	creationDate: '2020-09-07T03:35:18.000Z',
+	closeDate: '2021-07-11T15:10:00.000Z',
+	status: 'open',
+
+} as Complaint;
+
 jest.mock('typeorm', () => {
 	const repositoryMock = mock<Repository<Complaint>>();
 	repositoryMock.findOne.mockImplementation(async () =>
@@ -18,6 +32,8 @@ jest.mock('typeorm', () => {
 			status: 'open',
 		} as Complaint),
 	);
+
+	repositoryMock.save.mockImplementation(async () => Promise.resolve(complaintMock));
 
 	repositoryMock.find.mockImplementation(async () => {
 		return [
@@ -87,6 +103,14 @@ describe('Get wait complaints', () => {
 	test('Should return complaints of type hole and with status waiting', async () => {
 		const repository = new ComplaintRepository();
 		const result = await repository.getWaitComplaints('Hole' as Category);
+		expect(result).toBeTruthy();
+	});
+});
+
+describe('Create complaint', () => {
+	test('Should create complaint', async () => {
+		const repository = new ComplaintRepository();
+		const result = await repository.createComplaint(complaintMock);
 		expect(result).toBeTruthy();
 	});
 });
