@@ -53,8 +53,6 @@ export default class ControllerComplaint {
 
 	async create(req: Request, res: Response): Promise<Response> {
 		try {
-			console.log('------------------------------------------');
-			console.log(req.body);
 			const fields = [
 				'name',
 				'description',
