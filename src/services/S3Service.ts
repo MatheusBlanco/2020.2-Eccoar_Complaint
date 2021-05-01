@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { S3 } from 'aws-sdk';
+import * as crypto from 'crypto';
 
 export class S3Service {
 	private readonly s3: S3;
@@ -14,7 +15,7 @@ export class S3Service {
 		picture: string,
 	): Promise<S3.ManagedUpload.SendData> {
 		const date = new Date();
-		const hash = this._genRanHex(16);
+		const hash = crypto.randomBytes(16);
 		const buf = Buffer.from(
 			picture.replace(/^data:image\/\w+;base64,/, ''),
 			'base64',
@@ -22,7 +23,7 @@ export class S3Service {
 		const type = picture.split(';')[0].split('/')[1];
 
 		const params = {
-			Key: `${date.getMonth()}-${date.getFullYear()}-${hash}`,
+			Key: `${date.getMonth()}-${date.getFullYear()}-Ec${hash.toString('hex')}Ec`,
 			Body: buf,
 			Bucket: this.bucket,
 			ContentType: `image/${type}`,
@@ -32,11 +33,5 @@ export class S3Service {
 
 		const upload = this.s3.upload(params).promise();
 		return upload;
-	}
-
-	private _genRanHex(size: number) {
-		return `Ec${[...Array(size)]
-			.map(() => Math.floor(Math.random() * 16).toString(16))
-			.join('')}Ec`;
 	}
 }
