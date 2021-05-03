@@ -13,6 +13,7 @@ const complaintMock = {
 	creationDate: '2020-09-07T03:35:18.000Z',
 	closeDate: '2021-07-11T15:10:00.000Z',
 	status: 'open',
+	picture: null,
 } as Complaint;
 
 const repositoryMock = {
