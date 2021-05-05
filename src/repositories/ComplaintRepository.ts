@@ -15,6 +15,11 @@ export class ComplaintRepository {
 		return repository.save(complaint);
 	}
 
+	async deleteComplaint(id: number): Promise<void> {
+		const repository = getRepository(Complaint);
+		repository.delete(id);
+	}
+
 	async update(complaint: Complaint): Promise<void> {
 		const repository = getRepository(Complaint);
 		repository.update(complaint.id, complaint);

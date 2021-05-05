@@ -3,10 +3,12 @@ import {
 	PrimaryGeneratedColumn,
 	Column,
 	CreateDateColumn,
+	OneToMany,
 } from 'typeorm';
 import { IsLatitude, IsLongitude } from 'class-validator';
 import { Category } from '@utils/Category';
 import { Status } from '@utils/Status';
+import { Votes } from './Votes';
 
 @Entity('tb_complaint')
 export class Complaint {
@@ -44,4 +46,7 @@ export class Complaint {
 
 	@Column({ nullable: false, default: 'open', type: 'enum', enum: Status })
 	status: Status;
+
+	@OneToMany(() => Votes, (vote) => vote.complaint, { cascade: true })
+	votes: Votes[];
 }

@@ -8,7 +8,7 @@ export class VotesRepository {
 		typeVote: VoteType,
 	): Promise<number> {
 		const repository = getRepository(Votes);
-		return repository.count({ complaintId, typeVote });
+		return repository.count({ where: { complaintId, typeVote } });
 	}
 
 	async saveVote(

@@ -1,5 +1,3 @@
-import { Repository } from 'typeorm';
-import { mock } from 'jest-mock-extended';
 import { Complaint } from '../src/entity/Complaint';
 import { ComplaintRepository } from '../src/repositories/ComplaintRepository';
 import { Category } from '../src/utils/Category';
@@ -15,12 +13,10 @@ const complaintMock = {
 	creationDate: '2020-09-07T03:35:18.000Z',
 	closeDate: '2021-07-11T15:10:00.000Z',
 	status: 'open',
-
 } as Complaint;
 
-jest.mock('typeorm', () => {
-	const repositoryMock = mock<Repository<Complaint>>();
-	repositoryMock.findOne.mockImplementation(async () =>
+const repositoryMock = {
+	findOne: jest.fn(async () =>
 		Promise.resolve({
 			name: 'mockName',
 			description: 'mockDescription',
@@ -31,11 +27,11 @@ jest.mock('typeorm', () => {
 			picture: null,
 			status: 'open',
 		} as Complaint),
-	);
+	),
 
-	repositoryMock.save.mockImplementation(async () => Promise.resolve(complaintMock));
+	save: jest.fn(async () => Promise.resolve(complaintMock)),
 
-	repositoryMock.find.mockImplementation(async () => {
+	find: jest.fn(async () => {
 		return [
 			{
 				name: 'Stronghold',
@@ -60,14 +56,24 @@ jest.mock('typeorm', () => {
 				status: 'wait',
 			},
 		] as Complaint[];
-	});
+	}),
 
+	delete: jest.fn(async () => Promise.resolve()),
+};
+
+jest.mock('typeorm', () => {
 	return {
 		getRepository: () => repositoryMock,
 		PrimaryGeneratedColumn: () => {
 			null;
 		},
 		Column: () => {
+			null;
+		},
+		OneToMany: () => {
+			null;
+		},
+		ManyToOne: () => {
 			null;
 		},
 		Entity: () => {
@@ -77,6 +83,9 @@ jest.mock('typeorm', () => {
 			null;
 		},
 		CreateDateColumn: () => {
+			null;
+		},
+		JoinColumn: () => {
 			null;
 		},
 	};
@@ -96,6 +105,14 @@ describe('Get complaint by Id', () => {
 			picture: null,
 			status: 'open',
 		});
+	});
+});
+
+describe('Delete complaint', () => {
+	test('Should delete complaint', async () => {
+		const repository = new ComplaintRepository();
+		await repository.deleteComplaint(1);
+		expect(repositoryMock.delete).toHaveBeenCalled();
 	});
 });
 

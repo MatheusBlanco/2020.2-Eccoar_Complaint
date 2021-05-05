@@ -125,42 +125,73 @@ describe('complaints', () => {
 	});
 });
 
-describe('Create complaints Tests', () => {
-	test('should return status code 201', async () => {
+describe('Delete complaints tests', () => {
+	test('should delete complaint', async () => {
 		const controller = new ControllerComplaint();
 		const mReq = {} as Request;
-		mReq.body = {
-			name: 'some-name',
-			description: 'some-description',
-			latitude: 10,
-			longitude: -10,
-			userId: 0,
-			category: 'Hole',
+		mReq.query = {
+			id: '11',
+			userId: '11',
 		};
 		const mResp = mockResponse();
 
 		jest.spyOn(
 			ComplaintRepository.prototype,
-			'createComplaint',
+			'getById',
+		).mockImplementationOnce(() => Promise.resolve(complaintMock));
+		jest.spyOn(
+			ComplaintRepository.prototype,
+			'deleteComplaint',
 		).mockImplementation();
 
-		await controller.create(mReq, mResp);
-		expect(mResp.sendStatus).toHaveBeenCalledWith(201);
+		await controller.deleteComplaintController(mReq, mResp);
+		expect(mResp.sendStatus).toHaveBeenCalledWith(200);
 	});
 
-	test('should return status code 400', async () => {
+	test('should not let different user delete a complaint that its not his own', async () => {
 		const controller = new ControllerComplaint();
 		const mReq = {} as Request;
+		mReq.query = {
+			id: '11',
+			userId: '10',
+		};
 		const mResp = mockResponse();
 
 		jest.spyOn(
 			ComplaintRepository.prototype,
-			'createComplaint',
-		).mockImplementation(() => {
-			throw new Error();
-		});
+			'getById',
+		).mockImplementationOnce(() => Promise.resolve(complaintMock));
+		jest.spyOn(
+			ComplaintRepository.prototype,
+			'deleteComplaint',
+		).mockImplementation();
 
-		await controller.create(mReq, mResp);
+		await controller.deleteComplaintController(mReq, mResp);
+		expect(mResp.json).toHaveBeenCalledWith({
+			msg: 'User has not permission to delete this complaint!',
+		});
+		expect(mResp.status).toHaveBeenCalledWith(403);
+	});
+
+	test('could not find a complaint with this id', async () => {
+		const controller = new ControllerComplaint();
+		const mReq = {} as Request;
+		mReq.query = {
+			id: '11',
+			userId: '10',
+		};
+		const mResp = mockResponse();
+
+		jest.spyOn(
+			ComplaintRepository.prototype,
+			'getById',
+		).mockImplementationOnce(() => null);
+		jest.spyOn(
+			ComplaintRepository.prototype,
+			'deleteComplaint',
+		).mockImplementation();
+
+		await controller.deleteComplaintController(mReq, mResp);
 		expect(mResp.status).toHaveBeenCalledWith(400);
 	});
 });

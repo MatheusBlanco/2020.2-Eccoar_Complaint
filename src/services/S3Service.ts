@@ -23,7 +23,9 @@ export class S3Service {
 		const type = picture.split(';')[0].split('/')[1];
 
 		const params = {
-			Key: `${date.getMonth()}-${date.getFullYear()}-Ec${hash.toString('hex')}Ec`,
+			Key: `${date.getMonth()}-${date.getFullYear()}-Ec${hash.toString(
+				'hex',
+			)}Ec`,
 			Body: buf,
 			Bucket: this.bucket,
 			ContentType: `image/${type}`,

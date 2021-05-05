@@ -33,4 +33,8 @@ routers.get('/api/complaints/wait', (req: Request, res: Response) => {
 	controller.waitComplaintsByCategory(req, res);
 });
 
+routers.delete('/api/complaints', (req: Request, res: Response) => {
+	controller.deleteComplaintController(req, res);
+});
+
 export default routers;
