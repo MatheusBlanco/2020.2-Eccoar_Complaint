@@ -12,7 +12,7 @@ export class VotesRepository {
 	}
 
 	async removeVote(
-		userId: number,
+		userId: string,
 		complaintId: number,
 		typeVote: string,
 	): Promise<void> {

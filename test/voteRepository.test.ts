@@ -66,7 +66,11 @@ jest.mock('typeorm', () => {
 describe('VotesRepository test', () => {
 	test('Should remove vote', async () => {
 		const repository = new VotesRepository();
-		await repository.removeVote(10, 73, 'complaintUpvote');
+		await repository.removeVote(
+			'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
+			73,
+			'complaintUpvote',
+		);
 		expect(repositoryMock.createQueryBuilder).toBeCalled();
 	});
 });

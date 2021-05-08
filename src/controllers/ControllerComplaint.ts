@@ -147,7 +147,7 @@ export default class ControllerComplaint {
 					.status(400)
 					.json({ msg: `Missing fields [${missingFields}]` });
 			}
-			const userId = Number(req.query.userId);
+			const userId = String(req.query.userId);
 			const complaintId = Number(req.query.complaintId);
 			const typeVote = String(req.query.typeVote);
 			await this.voteRepository.removeVote(userId, complaintId, typeVote);
@@ -193,7 +193,7 @@ export default class ControllerComplaint {
 		const userId =
 			req.query.userId == null || req.query.userId == undefined
 				? null
-				: Number(req.query.userId);
+				: String(req.query.userId);
 		const skip = 0;
 		const take = 0;
 		try {
