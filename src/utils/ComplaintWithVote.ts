@@ -13,7 +13,7 @@ export interface ComplaintWithVote {
 	complaint_picture: string;
 	complaint_status: string;
 	vote_id: number;
-	vote_userId: number;
+	vote_userId: string;
 	vote_complaintId: number;
 	vote_typeVote: string;
 }

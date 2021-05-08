@@ -35,7 +35,7 @@ export class CreateComplaint1618526567509 implements MigrationInterface {
 					},
 					{
 						name: 'userId',
-						type: 'int(11)',
+						type: 'varchar(255)',
 						isNullable: false,
 					},
 					{

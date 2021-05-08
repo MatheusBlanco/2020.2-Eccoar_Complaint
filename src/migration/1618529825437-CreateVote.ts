@@ -15,7 +15,7 @@ export class CreateVote1618529825437 implements MigrationInterface {
 					},
 					{
 						name: 'userId',
-						type: 'int(11)',
+						type: 'varchar(255)',
 						isNullable: false,
 					},
 					{
