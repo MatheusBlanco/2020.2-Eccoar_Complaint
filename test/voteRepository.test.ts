@@ -19,8 +19,16 @@ const repositoryMock = {
 	})),
 	find: jest.fn(() => {
 		return [
-			{ userId: 10, complaintId: 73, typeVote: 'complaintUpvote' },
-			{ userId: 100, complaintId: 100, typeVote: 'complaintUpvote' },
+			{
+				userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
+				complaintId: 73,
+				typeVote: 'complaintUpvote',
+			},
+			{
+				userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
+				complaintId: 100,
+				typeVote: 'complaintUpvote',
+			},
 		] as Votes[];
 	}),
 };
@@ -38,6 +46,15 @@ jest.mock('typeorm', () => {
 			null;
 		},
 		Unique: () => {
+			null;
+		},
+		OneToMany: () => {
+			null;
+		},
+		ManyToOne: () => {
+			null;
+		},
+		JoinColumn: () => {
 			null;
 		},
 		CreateDateColumn: () => {
