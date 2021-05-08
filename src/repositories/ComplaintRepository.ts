@@ -27,7 +27,7 @@ export class ComplaintRepository {
 	}
 
 	async getNearbyComplaints(
-		userId: number,
+		userId: string,
 		latitude: number,
 		longitude: number,
 		maxDistance: number,

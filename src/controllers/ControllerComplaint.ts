@@ -217,7 +217,7 @@ export default class ControllerComplaint {
 			) {
 				const maxDistance = 2; // in kilometres
 				const userVotes = await this.complaintRepository.getNearbyComplaints(
-					Number(userId),
+					userId,
 					Number(latitude),
 					Number(longitude),
 					maxDistance / 1.60934, // converting to miles
