@@ -46,7 +46,7 @@ export class ComplaintRepository {
 	}
 
 	async getComplaintsWithVotes(
-		userId: number,
+		userId: string,
 		skip: number,
 		take: number,
 	): Promise<ComplaintWithVote[]> {
@@ -66,7 +66,7 @@ export class ComplaintRepository {
 	}
 
 	async getComplaintById(
-		userId: number,
+		userId: string,
 		complaintId: number,
 	): Promise<ComplaintWithVote> {
 		const repository = getRepository(Complaint);

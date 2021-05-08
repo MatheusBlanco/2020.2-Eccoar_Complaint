@@ -6,7 +6,7 @@ export interface ComplaintWithVote {
 	complaint_description: string;
 	complaint_latitude: number;
 	complaint_longitude: number;
-	complaint_userId: number;
+	complaint_userId: string;
 	complaint_category: Category;
 	complaint_creationDate: string;
 	complaint_closeDate: string;

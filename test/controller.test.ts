@@ -23,7 +23,7 @@ const complaintMock = {
 	description: 'Disarticulation of elbow',
 	latitude: -7,
 	longitude: 24,
-	userId: 11,
+	userId: 'J5XePUMKi9XJdrs1L4zbYgB8haUY',
 	category: 'Hole',
 	creationDate: '2020-09-07T03:35:18.000Z',
 	closeDate: '2021-07-11T15:10:00.000Z',
@@ -38,7 +38,7 @@ const getVote = [
 			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
 		complaint_latitude: 36.275231,
 		complaint_longitude: 113.310158,
-		complaint_userId: 74,
+		complaint_userId: 'J5XePUMKi9XJdrs1L4zbYgB8haUY',
 		complaint_category: 'Water',
 		complaint_creationDate: '2021-02-21T18:52:45.000Z',
 		complaint_closeDate: '2020-11-11T05:41:31.000Z',
@@ -59,7 +59,7 @@ const waitVotes = [
 			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
 		latitude: 16.504382,
 		longitude: 104.0304535,
-		userId: 78,
+		userId: 'J5XePUMKi9XJdrs1L4zbYgB8haUY',
 		category: 'Hole',
 		creationDate: '2020-08-27T05:02:38.000Z',
 		closeDate: '2020-10-08T14:23:52.000Z',
@@ -73,7 +73,7 @@ const waitVotes = [
 			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
 		latitude: -8.4164207,
 		longitude: 115.3459831,
-		userId: 19,
+		userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
 		category: 'Hole',
 		creationDate: '2020-04-01T08:01:32.000Z',
 		closeDate: '2020-12-25T09:44:53.000Z',
@@ -131,7 +131,7 @@ describe('Delete complaints tests', () => {
 		const mReq = {} as Request;
 		mReq.query = {
 			id: '11',
-			userId: '11',
+			userId: 'J5XePUMKi9XJdrs1L4zbYgB8haUY',
 		};
 		const mResp = mockResponse();
 
@@ -205,7 +205,7 @@ describe('Create complaints Tests', () => {
 			description: 'some-description',
 			latitude: 10,
 			longitude: -10,
-			userId: 0,
+			userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
 			category: 'Hole',
 		};
 		const mResp = mockResponse();
@@ -254,7 +254,7 @@ describe('addVotes tests', () => {
 		mReq.body = {
 			complaintId: 32,
 			typeVote: 'complaintConfirmed',
-			userId: 65,
+			userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
 		};
 		const mResp = mockResponse();
 		jest.spyOn(VotesRepository.prototype, 'saveVote').mockImplementation();
@@ -296,7 +296,7 @@ describe('addVotes tests', () => {
 		mReq.body = {
 			complaintId: 32,
 			typeVote: 'complaintConfirmed',
-			userId: 65,
+			userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
 		};
 		const mResp = mockResponse();
 		await controller.addVote(mReq, mResp);
@@ -315,7 +315,7 @@ describe('addVotes tests', () => {
 		mReq.body = {
 			complaintId: 32,
 			typeVote: 'complaintUpvote',
-			userId: 65,
+			userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
 		};
 		const mResp = mockResponse();
 		jest.spyOn(VotesRepository.prototype, 'saveVote').mockImplementation();
@@ -357,7 +357,7 @@ describe('addVotes tests', () => {
 		mReq.body = {
 			complaintId: 32,
 			typeVote: 'complaintUpvote',
-			userId: 65,
+			userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
 		};
 		const mResp = mockResponse();
 		await controller.addVote(mReq, mResp);
@@ -389,7 +389,7 @@ describe('list upvotes tests', () => {
 		const controller = new ControllerComplaint();
 		const mReq = {} as Request;
 		mReq.query = {
-			userId: '1',
+			userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
 			take: '0',
 			skip: '0',
 		};

@@ -16,7 +16,7 @@ export class Votes {
 	id: number;
 
 	@Column({ nullable: false })
-	userId: number;
+	userId: string;
 
 	@Column({ nullable: false })
 	complaintId: number;
