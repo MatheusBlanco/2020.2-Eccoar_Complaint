@@ -52,25 +52,6 @@ const getVote = [
 	},
 ] as ComplaintWithVote[];
 
-const complaintWithVoteMock = {
-	complaint_id: 1,
-	complaint_name: 'Sub-Ex',
-	complaint_description:
-		'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
-	complaint_latitude: 36.275231,
-	complaint_longitude: 113.310158,
-	complaint_userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
-	complaint_category: 'Water',
-	complaint_creationDate: '2021-02-21T18:52:45.000Z',
-	complaint_closeDate: '2020-11-11T05:41:31.000Z',
-	complaint_picture: 'http://dummyimage.com/237x100.png/cc0000/ffffff',
-	complaint_status: 'open',
-	vote_id: 405,
-	vote_userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
-	vote_complaintId: 7,
-	vote_typeVote: 'complaintUpvote',
-} as ComplaintWithVote;
-
 const waitVotes = [
 	{
 		id: 10,
@@ -101,18 +82,6 @@ const waitVotes = [
 		status: 'wait',
 	},
 ] as Complaint[];
-
-const confirmedVoteMock = {
-	complaintId: 32,
-	typeVote: 'complaintConfirmed',
-	userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
-} as Votes;
-
-const upVoteMock = {
-	complaintId: 32,
-	typeVote: 'complaintUpvote',
-	userId: 'DdZBkbNTDypv7Jg83jhPTZIEHwsQ',
-} as Votes;
 
 describe('complaints', () => {
 	test('should take complaints from complaints()', async () => {
