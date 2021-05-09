@@ -8,7 +8,6 @@ jest.mock('@repositories/ComplaintRepository');
 import { Complaint } from '@entity/Complaint';
 import { VotesRepository } from '@repositories/VotesRepository';
 import { ComplaintWithVote } from '@utils/ComplaintWithVote';
-import { Votes } from '@entity/Votes';
 
 const mockResponse = () => {
 	const res: Response = {} as Response;

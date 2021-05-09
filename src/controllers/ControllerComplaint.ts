@@ -166,6 +166,7 @@ export default class ControllerComplaint {
 				.json({ msg: `Missing fields [${missingFields}]` });
 		}
 		try {
+			const voteFlag = !req.body.voteFlag ? 15 : req.body.voteFlag;
 			const complaint = await this.checkComplaintExist(
 				req.body.complaintId,
 			);
@@ -181,6 +182,7 @@ export default class ControllerComplaint {
 			complaintVote.validateVote(
 				countVotes,
 				complaint,
+				voteFlag,
 				this.complaintRepository,
 			);
 			return res.sendStatus(200);

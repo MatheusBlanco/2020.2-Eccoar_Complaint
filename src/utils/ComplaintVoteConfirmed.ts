@@ -7,9 +7,10 @@ export default class ComplaintVoteConfirmed implements ComplaintVote {
 	async validateVote(
 		count: number,
 		complaint: Complaint,
+		voteFlag: number,
 		repository: ComplaintRepository,
 	): Promise<void> {
-		if (count > 9 && complaint.status !== 'finished') {
+		if (count > voteFlag && complaint.status !== 'finished') {
 			const closeDate = new Date();
 			complaint.status = Status.finished;
 			complaint.closeDate = closeDate.toISOString();
