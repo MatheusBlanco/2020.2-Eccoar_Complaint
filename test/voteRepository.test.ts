@@ -1,6 +1,6 @@
 import { Votes } from '@entity/Votes';
 import { DeleteResult } from 'typeorm';
-import { VotesRepository } from '../src/repositories/VotesRepository';
+import { VotesRepository } from '@repositories/VotesRepository';
 
 const deleteMock = {
 	raw: {},

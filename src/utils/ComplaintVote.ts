@@ -5,6 +5,7 @@ export interface ComplaintVote {
 	validateVote(
 		count: number,
 		complaint: Complaint,
+		voteFlag: number,
 		repository: ComplaintRepository,
 	): Promise<void>;
 }
