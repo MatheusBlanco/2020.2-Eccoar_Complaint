@@ -35,7 +35,7 @@ export class ComplaintRepository {
 		take?: number,
 	): Promise<ComplaintWithVoteAndDistance[]> {
 		const repository = getRepository(Complaint);
-		const getNearbyComplaints: ComplaintWithVoteAndDistance[] = await repository
+		return await repository
 			.createQueryBuilder('complaint')
 			.leftJoinAndSelect(
 				Votes,
@@ -52,7 +52,6 @@ export class ComplaintRepository {
 			.take(take)
 			.skip(skip * take)
 			.getRawMany<ComplaintWithVoteAndDistance>();
-		return getNearbyComplaints;
 	}
 
 	async getAllComplaints(
