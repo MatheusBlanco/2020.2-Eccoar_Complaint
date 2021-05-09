@@ -1,3 +1,4 @@
+import { ComplaintWithVoteAndDistance } from '@utils/ComplaintWithVoteAndDIstance';
 import { Complaint } from '../src/entity/Complaint';
 import { ComplaintRepository } from '../src/repositories/ComplaintRepository';
 import { Category } from '../src/utils/Category';
@@ -16,6 +17,28 @@ const complaintMock = {
 	picture: null,
 } as Complaint;
 
+const getVoteWithDistance = [
+	{
+		complaint_id: 1,
+		complaint_name: 'Sub-Ex',
+		complaint_description:
+			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+		complaint_latitude: 36.275231,
+		complaint_longitude: 113.310158,
+		complaint_userId: 'J5XePUMKi9XJdrs1L4zbYgB8haUY',
+		complaint_category: 'Water',
+		complaint_creationDate: '2021-02-21T18:52:45.000Z',
+		complaint_closeDate: '2020-11-11T05:41:31.000Z',
+		complaint_picture: 'http://dummyimage.com/237x100.png/cc0000/ffffff',
+		complaint_status: 'open',
+		vote_id: null,
+		vote_userId: null,
+		vote_complaintId: null,
+		vote_typeVote: null,
+		complaint_distance: 0,
+	},
+] as ComplaintWithVoteAndDistance[];
+
 const repositoryMock = {
 	findOne: jest.fn(async () =>
 		Promise.resolve({
@@ -31,6 +54,18 @@ const repositoryMock = {
 	),
 
 	save: jest.fn(async () => Promise.resolve(complaintMock)),
+
+	createQueryBuilder: jest.fn(() => ({
+		leftJoinAndSelect: jest.fn().mockReturnThis(),
+		addSelect: jest.fn().mockReturnThis(),
+		having: jest.fn().mockReturnThis(),
+		orderBy: jest.fn().mockReturnThis(),
+		take: jest.fn().mockReturnThis(),
+		skip: jest.fn().mockReturnThis(),
+		getRawMany: jest
+			.fn()
+			.mockReturnValueOnce(Promise.resolve(getVoteWithDistance)),
+	})),
 
 	find: jest.fn(async () => {
 		return [
@@ -90,6 +125,23 @@ jest.mock('typeorm', () => {
 			null;
 		},
 	};
+});
+
+describe('Testing geolocation repository services', () => {
+	test('should return nearby complaints', async () => {
+		const result = await repositoryMock
+			.createQueryBuilder()
+			.leftJoinAndSelect()
+			.addSelect()
+			.having()
+			.orderBy()
+			.take()
+			.skip()
+			.getRawMany();
+		const repository = new ComplaintRepository();
+		repository.getNearbyComplaints('asdasdsa', -7, 24, 2 / 1.6, 0, 0);
+		expect(result).toBe(getVoteWithDistance);
+	});
 });
 
 describe('Get complaint by Id', () => {
