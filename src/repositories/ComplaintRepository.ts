@@ -10,6 +10,11 @@ export class ComplaintRepository {
 		return repository.findOne({ id });
 	}
 
+	getComplaintsByUserId(userId: string): Promise<Complaint[]> {
+		const repository = getRepository(Complaint);
+		return repository.find({ userId });
+	}
+
 	createComplaint(complaint: Complaint): Promise<Complaint> {
 		const repository = getRepository(Complaint);
 		return repository.save(complaint);

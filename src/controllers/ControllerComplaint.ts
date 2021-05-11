@@ -191,21 +191,17 @@ export default class ControllerComplaint {
 		}
 	}
 
-	async getInteractionsReport(
+	async getUserCreatedComplaints(
 		req: Request,
 		res: Response,
 	): Promise<Response> {
 		const userId = req.query.userId;
-		const skip = 0;
-		const take = 0;
 		try {
 			if (userId == null || userId == undefined) {
 				throw new Error('User not found');
 			}
-			const userVotes = await this.complaintRepository.getComplaintsWithVotes(
-				Number(userId),
-				skip,
-				take,
+			const userVotes = await this.complaintRepository.getComplaintsByUserId(
+				String(userId)
 			);
 			return res.status(200).json(userVotes);
 		} catch (error) {
