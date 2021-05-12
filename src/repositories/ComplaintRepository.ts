@@ -44,7 +44,7 @@ export class ComplaintRepository {
 				{ userId },
 			)
 			.addSelect(
-				`SQRT(POW(69.1 * (latitude - ${latitude}), 2) +POW(69.1 * (${longitude} - longitude) * COS(latitude / 57.3), 2))`,
+				`SQRT(POW(111.2 * (latitude - ${latitude}), 2) +POW(111.2 * (${longitude} - longitude) * COS(latitude / 57.3), 2))`,
 				'complaint_distance',
 			)
 			.having('complaint_distance < :maxDistance', { maxDistance })

@@ -222,7 +222,7 @@ export default class ControllerComplaint {
 					userId,
 					Number(latitude),
 					Number(longitude),
-					maxDistance / 1.60934, // converting to miles
+					maxDistance,
 					Number(skip),
 					Number(take),
 				);
