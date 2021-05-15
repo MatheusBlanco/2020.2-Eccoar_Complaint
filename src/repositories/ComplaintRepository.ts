@@ -3,6 +3,7 @@ import { Votes } from '@entity/Votes';
 import { Complaint } from '@entity/Complaint';
 import { Category } from '../utils/Category';
 import { ComplaintWithVote } from '../utils/ComplaintWithVote';
+import { ComplaintWithVoteAndDistance } from '@utils/ComplaintWithVoteAndDIstance';
 
 export class ComplaintRepository {
 	getById(id: number): Promise<Complaint> {
@@ -23,6 +24,34 @@ export class ComplaintRepository {
 	async update(complaint: Complaint): Promise<void> {
 		const repository = getRepository(Complaint);
 		repository.update(complaint.id, complaint);
+	}
+
+	async getNearbyComplaints(
+		userId: string,
+		latitude: number,
+		longitude: number,
+		maxDistance: number,
+		skip?: number,
+		take?: number,
+	): Promise<ComplaintWithVoteAndDistance[]> {
+		const repository = getRepository(Complaint);
+		return await repository
+			.createQueryBuilder('complaint')
+			.leftJoinAndSelect(
+				Votes,
+				'vote',
+				'vote.complaintId = complaint.id and vote.userId = :userId',
+				{ userId },
+			)
+			.addSelect(
+				`SQRT(POW(111.2 * (latitude - ${latitude}), 2) +POW(111.2 * (${longitude} - longitude) * COS(latitude / 57.3), 2))`,
+				'complaint_distance',
+			)
+			.having('complaint_distance < :maxDistance', { maxDistance })
+			.orderBy('complaint_distance')
+			.take(take)
+			.skip(skip * take)
+			.getRawMany<ComplaintWithVoteAndDistance>();
 	}
 
 	async getAllComplaints(
@@ -59,8 +88,8 @@ export class ComplaintRepository {
 				'vote.complaintId = complaint.id and vote.userId = :userId',
 				{ userId },
 			)
-			.limit(take)
-			.offset(skip * take)
+			.take(take)
+			.skip(skip * take)
 			.getRawMany<ComplaintWithVote>();
 		return getComplaintsVotes;
 	}

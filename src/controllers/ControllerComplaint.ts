@@ -108,10 +108,12 @@ export default class ControllerComplaint {
 	}
 
 	async complaints(req: Request, resp: Response): Promise<void> {
+		const skip = Number(req.query.skip);
+		const take = Number(req.query.take);
 		try {
 			const response = await this.complaintRepository.getAllComplaints(
-				Number(req.query.skip),
-				Number(req.query.take),
+				skip,
+				take,
 				String(req.query.orderDate),
 			);
 			resp.status(200).json(response);
@@ -196,18 +198,43 @@ export default class ControllerComplaint {
 			req.query.userId == null || req.query.userId == undefined
 				? null
 				: String(req.query.userId);
-		const skip = 0;
-		const take = 0;
+		const skip =
+			req.query.skip == null || req.query.skip == undefined
+				? 0
+				: req.query.skip;
+		const take =
+			req.query.take == null || req.query.take == undefined
+				? 50
+				: req.query.take;
+		const latitude = req.query.latitude;
+		const longitude = req.query.longitude;
+
 		try {
 			if (userId == null || userId == undefined) {
 				throw new Error('User not found');
 			}
-			const userVotes = await this.complaintRepository.getComplaintsWithVotes(
-				String(userId),
-				skip,
-				take,
-			);
-			return res.status(200).json(userVotes);
+			if (
+				(longitude != null || longitude != undefined) &&
+				(latitude != null || latitude != undefined)
+			) {
+				const maxDistance = 2; // in kilometres
+				const userVotes = await this.complaintRepository.getNearbyComplaints(
+					userId,
+					Number(latitude),
+					Number(longitude),
+					maxDistance,
+					Number(skip),
+					Number(take),
+				);
+				return res.status(200).json(userVotes);
+			} else {
+				const userVotes = await this.complaintRepository.getComplaintsWithVotes(
+					String(userId),
+					Number(skip),
+					Number(take),
+				);
+				return res.status(200).json(userVotes);
+			}
 		} catch (error) {
 			return res.status(400).json({ error: error.message });
 		}
